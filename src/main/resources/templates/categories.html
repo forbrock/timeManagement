@@ -42,8 +42,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/admin/categorys}">
-                  All categorys
+                <a class="nav-link" href="#" th:href="@{/admin/users}">
+                  All users
                 </a>
               </li>
               <li class="nav-item">
@@ -52,8 +52,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled" href="#">
-                  Customers
+                <a class="nav-link" href="#" th:href="@{/admin/activities}">
+                  Activities
                 </a>
               </li>
               <li class="nav-item">
@@ -128,7 +128,6 @@
                     <tr>
                         <td><a th:text="${category.getName()}">name</a></td>
                         <td><a th:text="${category.getState()}">state</a></td>
-                        <!-- <td><a th:text="${category.getState().name()}">state</a></td> -->
                         <td><a class="m-2" href="#" th:text="Edit" th:href="@{/admin/category/edit/{id}(id=${category.getId()})}">edit</a>
                             <a href="#" th:text="Delete" th:href="@{/admin/category/delete/{id}(id=${category.getId()})}">delete</a></td>
                     </tr>

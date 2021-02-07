@@ -1,7 +1,7 @@
 package com.spring.project.service;
 
-import com.spring.project.dto.UserActivityDto;
-import com.spring.project.dto.mapper.UserMapper;
+import com.spring.project.dto.ActivityDto;
+import com.spring.project.dto.mapper.ActivityMapper;
 import com.spring.project.repository.ActivityRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +13,15 @@ import java.util.List;
 @Service
 public class ActivityService {
     private ActivityRepository activityRepository;
-    private UserMapper mapper;
+    private ActivityMapper mapper;
 
     @Autowired
-    public ActivityService(ActivityRepository activityRepository, UserMapper mapper) {
+    public ActivityService(ActivityRepository activityRepository, ActivityMapper mapper) {
         this.activityRepository = activityRepository;
         this.mapper = mapper;
     }
 
-    public List<UserActivityDto> getUserActivities(long id) {
-        return null;
+    public List<ActivityDto> getAllActivities() {
+        return mapper.mapActivityToActivityDto(activityRepository.findAll());
     }
 }

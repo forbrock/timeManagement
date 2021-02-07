@@ -1,5 +1,6 @@
 package com.spring.project.controller;
 
+import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     private UserService userService;
     private CategoryService categoryService;
+    private ActivityService activityService;
 
     @Autowired
-    public AdminController(UserService userService, CategoryService categoryService) {
+    public AdminController(UserService userService, CategoryService categoryService,
+                           ActivityService activityService) {
         this.userService = userService;
         this.categoryService = categoryService;
+        this.activityService = activityService;
     }
 
     @GetMapping("/users")
@@ -32,5 +36,11 @@ public class AdminController {
     public String showCategories(Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());
         return "categories";
+    }
+
+    @GetMapping("/activities")
+    public String showActivities(Model model) {
+        model.addAttribute("activities", activityService.getAllActivities());
+        return "activities";
     }
 }
