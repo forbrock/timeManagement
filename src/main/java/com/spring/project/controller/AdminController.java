@@ -1,5 +1,11 @@
 package com.spring.project.controller;
 
+import com.spring.project.dto.RegistrationDto;
+import com.spring.project.dto.UserDto;
+import com.spring.project.exceptions.UserAlreadyExistException;
+import com.spring.project.model.User;
+import com.spring.project.model.enums.Role;
+import com.spring.project.model.enums.State;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserService;
@@ -7,8 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -42,5 +53,26 @@ public class AdminController {
     public String showActivities(Model model) {
         model.addAttribute("activities", activityService.getAllActivities());
         return "activities";
+    }
+
+    @PostMapping("/create")
+    public String createNewUser(@ModelAttribute("user") @Valid RegistrationDto regDto,
+                                BindingResult bindingResult, Model model) {
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("states", State.values());
+
+        if (bindingResult.hasErrors()) {
+            return "users";
+        }
+
+        try {
+            User created = userService.registerNewAccount(regDto);
+        } catch (UserAlreadyExistException e) {
+            log.error("User with such email ({}) already exist", regDto.getEmail());
+            model.addAttribute("error_message",
+                    "An account for this email already exists");
+            return "users";
+        }
+        return "redirect:/users";
     }
 }

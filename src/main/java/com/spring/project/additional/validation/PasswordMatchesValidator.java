@@ -1,6 +1,6 @@
 package com.spring.project.additional.validation;
 
-import com.spring.project.dto.UserRegisterDto;
+import com.spring.project.dto.RegistrationDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,7 +17,7 @@ public class PasswordMatchesValidator
         if (obj == null) {
             return false;
         }
-        UserRegisterDto user = (UserRegisterDto) obj;
+        RegistrationDto user = (RegistrationDto) obj;
         return user.getPassword().equals(user.getMatchingPassword());
     }
 }
