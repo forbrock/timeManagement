@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Registration form</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"
+        crossorigin="anonymous" />
+</head>
+
+<body>
+    <div class="container">
+        <form class="form-signin" method="post" action="/auth/registration" th:object="${user}">
+            <h2 class="form-signin-heading">Create your account</h2>
+
+            <!-- need to generate when user logged out -->
+            <!--        <div class="alert alert-success" role="alert">You have been signed out</div>-->
+            <!-- need to generate when wrong credentials were passed -->
+            <!--        <div class="alert alert-danger" role="alert">Bad credentials</div>-->
+
+            <p>
+                <input th:field="*{firstName}" type="text" id="first-name" name="first-name" class="form-control"
+                    placeholder="First name" required autofocus>
+                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
+                    role="alert">Validation error</div>
+            </p>
+            <p>
+                <input th:field="*{lastName}" type="text" id="last-name" name="last-name" class="form-control" 
+                    placeholder="Last name" required>
+                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
+                    role="alert">Validation error</div>
+            </p>
+            <p>
+                <input th:field="*{email}" type="email" id="email" name="email" class="form-control" 
+                    placeholder="Email" required>
+                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger p-2"
+                    role="alert">Validation error</div>
+            </p>
+            <p>
+                <input th:field="*{password}" type="password" class="form-control" 
+                    placeholder="Password" required>
+                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger p-2"
+                    role="alert">Validation error</div>
+            </p>
+            <p>
+                <input th:field="*{matchingPassword}" type="password" class="form-control" 
+                    placeholder="Confirm password" required>
+                <div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" 
+                class="alert alert-danger p-2" role="alert">Validation error</div>
+            </p>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+            <div class="my-sm-3 m-3 text-right"><a href="/auth/login">I already have an Account</a></div>
+        </form>
+    </div>
+</body>
+
+</html>

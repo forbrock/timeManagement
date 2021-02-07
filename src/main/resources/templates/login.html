@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <form class="form-signin" method="post" action="/auth/login">
+        <h2 class="form-signin-heading">Sign in</h2>
+
+        <!-- <div th:if="{param.logout}" class="alert alert-success" role="alert">You have been signed out</div> -->
+                
+        <div th:if="${loginError}" class="alert alert-danger" role="alert">Wrong email or password</div>
+        <p>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+        </p>
+        <p>
+            <input type="password" id="password" name="password" class="form-control" 
+                placeholder="Password" required>
+        </p>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+        <div class="my-sm-3 m-3 text-right"><a href="/auth/registration">Sign up</a></div>
+    </form>
+</div>
+</body>
+</html>
