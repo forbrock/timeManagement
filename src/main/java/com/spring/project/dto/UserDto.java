@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 public class UserDto {
+
     private Long id;
     @NotEmpty(message = "{valid.reg.not_empty}")
     @Size(min = 2, max = 30, message = "{valid.name.size}")
@@ -30,4 +31,6 @@ public class UserDto {
 
     @NotEmpty(message = "{valid.reg.not_empty}")
     private String password;
+
+    private Boolean enabled;
 }

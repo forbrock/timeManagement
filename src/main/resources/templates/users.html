@@ -24,11 +24,11 @@
 
 <body>
   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/admin" th:href="@{/admin}">Time management</a>
-    <form id="logout" action="/logout" method="POST"></form>
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">Time management</a>
+    <form id="logout-form" action="/logout" method="POST"></form>
     <ul class="navbar-nav px-3">
       <li class="nav-item text-nowrap">
-        <button type="submit" form="logout" class="btn nav-link">Sign out</button>
+        <button type="submit" form="logout-form" class="btn nav-link">Sign out</button>
       </li>
     </ul>
   </nav>
@@ -39,8 +39,8 @@
         <div class="sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="#" th:href="@{/admin}">
-                Dashboard
+              <a class="nav-link active" href="/">
+                Back to user page
               </a>
             </li>
             <li class="nav-item">
@@ -130,7 +130,6 @@
               <tr>
                 <th>full name</th>
                 <th>email</th>
-                <th>role</th>
                 <th>state</th>
                 <th>actions</th>
               </tr>
@@ -140,11 +139,10 @@
                 <tr>
                   <td><a th:text="${user.getFirstName() + ' ' + user.getLastName()}">full name</a></td>
                   <td><a th:text="${user.getEmail()}">email</a></td>
-                  <td><a th:text="${user.getRole().name()}">role</a></td>
-                  <td><a th:text="${user.getState().name()}">state</a></td>
-                  <td><a class="m-2" href="#" th:text="Edit"
+                  <td><a th:unless="${user.enabled}" th:text="#{user.account.state.false}">state</a></td>
+                  <td><a class="m-2" href="#" th:text="#{users.user.edit}"
                       th:href="@{/admin/user/edit/{id}(id=${user.getId()})}">edit</a>
-                    <a href="#" th:text="Delete" th:href="@{/admin/user/delete/{id}(id=${user.getId()})}">delete</a>
+                    <a href="#" th:text="#{users.user.delete}" th:href="@{/admin/user/delete/{id}(id=${user.getId()})}">delete</a>
                   </td>
                 </tr>
               </div>
@@ -154,7 +152,6 @@
         <button class="btn btn-sm btn-outline-secondary m-2" data-toggle="modal" data-target="#myModal">
           Add user
         </button>
-        <!-- <div th:if="${param.error_message != null}" th:text="${error_message}" class="alert alert-danger p-2" role="alert">Such email already extist</div> -->
 
         <!-- The Modal -->
         <div class="modal fade" id="myModal">
@@ -163,63 +160,41 @@
 
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title">Add new user</h4>
+                <h4 class="modal-title" th:text="#{users.add_new_user}">Add new user</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
-
+              
               <!-- Modal body -->
               <div class="modal-body">
                 <form action="#" method="post" id="create-user" th:action="@{/admin/create}" th:object="${user}">
                   <div class="row">
                     <div class="col-8">
-                      <input th:field="*{firstName}" type="text" class="form-control mb-2" id="fname" placeholder="First name" name="fname">
+                      <input th:field="*{firstName}" type="text" class="form-control mb-2" id="firstName" placeholder="" th:placeholder="#{reg.first_name}" name="firstName">
                       <!-- <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
                         role="alert">Validation error</div> -->
                       
-                      <input th:field="*{lastName}" type="text" class="form-control mb-2" id="lname" placeholder="Last name" name="lname">
+                      <input th:field="*{lastName}" type="text" class="form-control mb-2" id="lastName" placeholder="" th:placeholder="#{reg.last_name}" name="lastName">
                       <!-- <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
                         role="alert">Validation error</div> -->
 
-                      <input th:field="*{email}" type="text" class="form-control mb-2" id="email" placeholder="Email" name="email">
+                      <input th:field="*{email}" type="text" class="form-control mb-2" id="email" placeholder="" th:placeholder="#{reg.email}" name="email">
                       <!-- <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger p-2"
                         role="alert">Validation error</div> -->
 
-                      <input th:field="*{password}" type="password" class="form-control mb-2" placeholder="Password" name="pswd">
+                      <input th:field="*{password}" type="password" class="form-control mb-2" placeholder="" th:placeholder="#{reg.password}" name="password">
                       <!-- <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger p-2"
                         role="alert">Validation error</div> -->
 
-                      <input th:field="*{matchingPassword}" type="password" class="form-control mb-2" placeholder="Retype password" name="pswd">
+                      <input th:field="*{matchingPassword}" type="password" class="form-control mb-2" placeholder="" th:placeholder="#{reg.confirm_password}" name="matchingPassword">
                       <!-- <div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" class="alert alert-danger p-2"
                         role="alert">Validation error</div> -->
                     </div>
 
-                    <div class="col-4">
-                      <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownRole" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                          Role
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownRole">
-                          <div th:each="role : ${roles}">
-                            <li th:text="${role}"></li>
-                          </div>
-                        </ul>
-                      </div>
-
-                      <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownState" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                          State
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownState">
-                          <div th:each="state : ${states}">
-                            <li th:text="${state}"></li>
-                          </div>
-                        </ul>
-                      </div>
-                      
-                      <!-- <input type="text" class="form-control mb-2" id="role" placeholder="Role" name="role"> -->
-                      <!-- <input type="text" class="form-control mb-2" id="state" placeholder="State" name="state"> -->
+                    <div>
+                      <select class="form-control form-control" name="role">
+                        <option value="user" th:text="#{role.user}">USER</option>
+                        <option value="admin" th:text="#{role.admin}">ADMIN</option>
+                      </select>
                     </div>
 
                   </div>
@@ -229,7 +204,7 @@
               <!-- Modal footer -->
               <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
-                <!-- <button type="submit" form="create-user" class="btn btn-md btn-outline-secondary m-2">Create</button> -->
+                <button type="submit" form="create-user" class="btn btn-md btn-outline-secondary m-2">Create</button>
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
             </div>

@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -37,10 +34,12 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto, Model model) {
+    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto, Model model,
+                               BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "users";
+        }
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("roles", Role.values());
-        model.addAttribute("states", State.values());
         return "users";
     }
 
@@ -62,12 +61,9 @@ public class AdminController {
     }
 
     @PostMapping("/create")
-    public String createNewUser(@ModelAttribute("user") @Valid RegistrationDto regDto,
-                                BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return "users";
-        }
-
+    public String createNewUser(@ModelAttribute("user")
+                                    @Valid RegistrationDto regDto, Model model) {
+        // TODO: move "try-catch" to the service
         try {
             User created = userService.registerNewAccount(regDto);
         } catch (UserAlreadyExistException e) {
