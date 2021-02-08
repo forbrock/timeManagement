@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
     @Column(name = "first_name", length = 30, nullable = false)
@@ -37,9 +37,11 @@ public class User implements UserDetails {
     @Column(name = "last_name", length = 30, nullable = false)
     private String lastName;
 
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled = true;
+    @Column(name = "enabled", columnDefinition = "boolean default true", nullable = false)
+    private Boolean enabled = true;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
@@ -47,13 +49,15 @@ public class User implements UserDetails {
 
     @Column(name = "created")
     @CreatedDate
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "last_modified")
     @LastModifiedDate
     private LocalDateTime lastModified;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<UserActivity> activities;
 
     @Override

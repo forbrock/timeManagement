@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Log4j2
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/registration")
 public class RegistrationController implements ErrorController {
 
     private UserService userService;
@@ -31,13 +31,12 @@ public class RegistrationController implements ErrorController {
         this.messageSource = messageSource;
     }
 
-    @GetMapping("/registration")
+    @GetMapping
     public String showRegistrationPage(@ModelAttribute("user") RegistrationDto regDto) {
         return "registration";
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/registration")
+    @PostMapping
     public String registerUserAccount(@ModelAttribute("user") @Valid RegistrationDto regDto,
                                       BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -46,21 +45,19 @@ public class RegistrationController implements ErrorController {
 
         try {
             // TODO: authenticate and redirect user to main page after successful registration
+            //      move "try catch" to service
             User registered = userService.registerNewAccount(regDto);
             log.info("Account {} registered successfully", registered.getEmail());
         } catch (UserAlreadyExistException e) {
             bindingResult.rejectValue("email", "user.email",
-                    "reg.login_not_unique");
+                    "An account for this email already exists");
             return "registration";
         }
-        model.addAttribute("message", messageSource.getMessage("reg.success",
-                null,
-                LocaleContextHolder.getLocale()));
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @Override
     public String getErrorPath() {
-        return "/error";
+        return "error";
     }
 }

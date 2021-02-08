@@ -1,7 +1,5 @@
 package com.spring.project.dto;
 
-import com.spring.project.model.enums.Role;
-import com.spring.project.model.enums.State;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,7 +30,4 @@ public class UserDto {
 
     @NotEmpty(message = "{valid.reg.not_empty}")
     private String password;
-
-    private Role role;
-    private boolean enabled;
 }

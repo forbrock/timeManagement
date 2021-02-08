@@ -11,16 +11,16 @@
 </head>
 <body>
 <div class="container">
-    <form class="form-signin" method="post" action="/auth/login">
+    <form class="form-signin" method="post" action="/login" th:action="@{/login}">
         <h2 class="form-signin-heading"th:text="#{login.title}">Sign in</h2>
-        <div class="alert alert-success" role="alert" th:if="${logout} ? 'You have been signed out' : ''"></div>
-        <div class="alert alert-danger" role="alert" th:if="${error} ? 'Wrong email or password' : ''"></div>
+        <span style="background-color: rgb(99, 214, 151)" th:text="${logout} ? 'You have been signed out' : ''"></span>
+        <span style="background-color: rgb(248, 215, 218)" th:text="${error} ? 'Wrong email or password' : ''"></span>
 
         <!-- <div th:if="{param.logout}" class="alert alert-success" role="alert">You have been signed out</div> -->
                 
         <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="#{login.wrong_credential}">Wrong email or password</div>
         <p>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Email" 
+            <input type="text" id="email" name="email" class="form-control" placeholder="Email" 
                 th:placeholder="#{login.email}" required autofocus>
         </p>
         <p>
@@ -29,7 +29,7 @@
         </p>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.login}">Log In</button>
-        <div class="my-sm-3 m-3 text-right"><a href="/auth/registration" th:text="#{login.sign_up}">Sign up</a></div>
+        <div class="my-sm-3 m-3 text-right"><a href="/registration" th:text="#{login.sign_up}">Sign up</a></div>
     </form>
 
     <!-- <div class="aboutLanguage">

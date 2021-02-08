@@ -28,12 +28,14 @@ public class Activity {
 
     @Column(name = "created")
     @CreatedDate
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "last_modified")
     @LastModifiedDate
     private LocalDateTime lastModified;
 
-    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<UserActivity> activities;
 }

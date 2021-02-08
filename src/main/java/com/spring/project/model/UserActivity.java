@@ -23,7 +23,7 @@ public class UserActivity {
     @MapsId("userId")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("activityId")
     private Activity activity;
 
@@ -33,7 +33,7 @@ public class UserActivity {
 
     @Column(name = "created")
     @CreatedDate
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "accepted")
     @DateTimeFormat

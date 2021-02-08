@@ -7,15 +7,20 @@ import com.spring.project.dto.mapper.UserMapper;
 import com.spring.project.exceptions.CredentialsException;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.User;
+import com.spring.project.model.enums.Role;
 import com.spring.project.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 @Log4j2
@@ -23,11 +28,13 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private UserMapper mapper;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper mapper) {
+    public UserService(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.mapper = mapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDto> getAllUsers() {
@@ -45,8 +52,8 @@ public class UserService implements UserDetailsService {
                     user.getEmail());
             throw new UserAlreadyExistException("reg.login_not_unique");
         }
-        // TODO: add password encoding
-//        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setPassword(passwordEncoder.encode(regDto.getPassword()));
         return userRepository.save(user);
     }
 
@@ -56,7 +63,7 @@ public class UserService implements UserDetailsService {
 
     public User getUser(LoginDto loginDto) throws CredentialsException {
         User user = userRepository
-                .findByUserEmailAndPassword(loginDto.getEmail(), loginDto.getPassword())
+                .findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword())
                 .orElseThrow(() -> new CredentialsException("Invalid credentials"));
         log.info("{} successfully logged in", loginDto.getEmail());
         return user;

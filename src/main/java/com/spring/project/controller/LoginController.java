@@ -32,7 +32,8 @@ public class LoginController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/login")
-    public void loginUser(LoginDto loginDto) throws CredentialsException {
+    public String loginUser(LoginDto loginDto) throws CredentialsException {
         userService.getUser(loginDto);
+        return "redirect:/user_page";
     }
 }

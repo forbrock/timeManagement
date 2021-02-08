@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Log4j2
 @Controller
-@RequestMapping("/user")
+@RequestMapping({"/", "/user_page"})
 public class UserController {
     private ActivityService activityService;
 

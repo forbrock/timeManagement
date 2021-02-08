@@ -44,6 +44,11 @@ public class AdminController {
         return "users";
     }
 
+    @GetMapping
+    public String showAdminPage() {
+        return "admin";
+    }
+
     @GetMapping("/categories")
     public String showCategories(Model model) {
         model.addAttribute("categories", categoryService.getAllCategories());

@@ -35,7 +35,7 @@ public class Category {
 
     @Column(name = "created")
     @CreatedDate
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @Column(name = "last_modified")
     @LastModifiedDate

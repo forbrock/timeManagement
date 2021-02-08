@@ -1,4 +1,5 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
   <meta charset="utf-8">
@@ -10,7 +11,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="../static/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
+  <link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
   <style>
     a.disabled {
       /* Make the disabled links grayish*/
@@ -24,7 +25,7 @@
 <body>
   <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/admin" th:href="@{/admin}">Time management</a>
-    <form id="logout" action="/auth/logout" method="POST"></form>
+    <form id="logout" action="/logout" method="POST"></form>
     <ul class="navbar-nav px-3">
       <li class="nav-item text-nowrap">
         <button type="submit" form="logout" class="btn nav-link">Sign out</button>
