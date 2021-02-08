@@ -34,5 +34,5 @@ public class UserDto {
     private String password;
 
     private Role role;
-    private State state;
+    private boolean enabled;
 }

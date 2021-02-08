@@ -1,5 +1,6 @@
 package com.spring.project.dto.mapper;
 
+import com.spring.project.dto.LoginDto;
 import com.spring.project.dto.UserDto;
 import com.spring.project.dto.RegistrationDto;
 import com.spring.project.dto.UserActivityDto;
@@ -15,5 +16,6 @@ public interface UserMapper {
     UserDto userToUserDto(User user);
     List<UserDto> mapUserToUserDto(List<User> users);
     List<UserActivityDto> mapUserActivityToUserActivityDto(List<UserActivity> activities);
-    User userRegDtoToUser(RegistrationDto regDto);
+    User regDtoToUser(RegistrationDto regDto);
+    User loginDtoToUser(LoginDto loginDto);
 }

@@ -15,8 +15,9 @@
 
 <body>
     <div class="container">
-        <form class="form-signin" method="post" action="/auth/registration" th:object="${user}">
-            <h2 class="form-signin-heading">Create your account</h2>
+        <form class="form-signin" method="post" action="#" th:action="@{/registration}" th:object="${user}">
+            <h2 class="form-signin-heading" th:text="#{reg.header}">Create your account</h2>
+            <h5 class="text-success" th:text="${message}"></h5>
 
             <!-- need to generate when user logged out -->
             <!--        <div class="alert alert-success" role="alert">You have been signed out</div>-->
@@ -25,36 +26,36 @@
 
             <p>
                 <input th:field="*{firstName}" type="text" id="first-name" name="first-name" class="form-control"
-                    placeholder="First name" required autofocus>
+                    placeholder="First name" th:placeholder="#{reg.first_name}" required autofocus>
                 <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
                     role="alert">Validation error</div>
             </p>
             <p>
                 <input th:field="*{lastName}" type="text" id="last-name" name="last-name" class="form-control" 
-                    placeholder="Last name" required>
+                    placeholder="Last name" th:placeholder="#{reg.last_name}" required>
                 <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
                     role="alert">Validation error</div>
             </p>
             <p>
                 <input th:field="*{email}" type="email" id="email" name="email" class="form-control" 
-                    placeholder="Email" required>
+                    placeholder="Email" th:placeholder="#{reg.email}" required>
                 <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger p-2"
                     role="alert">Validation error</div>
             </p>
             <p>
                 <input th:field="*{password}" type="password" class="form-control" 
-                    placeholder="Password" required>
+                    placeholder="Password" th:placeholder="#{reg.password}" required>
                 <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger p-2"
                     role="alert">Validation error</div>
             </p>
             <p>
                 <input th:field="*{matchingPassword}" type="password" class="form-control" 
-                    placeholder="Confirm password" required>
+                    placeholder="Confirm password" th:placeholder="#{reg.confirm_password}" required>
                 <div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" 
                 class="alert alert-danger p-2" role="alert">Validation error</div>
             </p>
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
-            <div class="my-sm-3 m-3 text-right"><a href="/auth/login">I already have an Account</a></div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{reg.sign_up}">Create</button>
+            <div class="my-sm-3 m-3 text-right"><a href="/auth/login" th:text="#{login.sign_in}">I already have an Account</a></div>
         </form>
     </div>
 </body>

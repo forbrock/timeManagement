@@ -153,7 +153,7 @@
         <button class="btn btn-sm btn-outline-secondary m-2" data-toggle="modal" data-target="#myModal">
           Add user
         </button>
-        <div th:text="${error_message}" class="alert alert-danger p-2" role="alert">Email exist</div>
+        <!-- <div th:if="${param.error_message != null}" th:text="${error_message}" class="alert alert-danger p-2" role="alert">Such email already extist</div> -->
 
         <!-- The Modal -->
         <div class="modal fade" id="myModal">
@@ -162,19 +162,34 @@
 
               <!-- Modal Header -->
               <div class="modal-header">
-                <h4 class="modal-title">Modal Heading</h4>
+                <h4 class="modal-title">Add new user</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
 
               <!-- Modal body -->
               <div class="modal-body">
-                <form action="#" method="post" id="create-user" th:href="@{/admin/create}">
+                <form action="#" method="post" id="create-user" th:action="@{/admin/create}" th:object="${user}">
                   <div class="row">
                     <div class="col-8">
-                      <input type="text" class="form-control mb-2" id="fname" placeholder="First name" name="fname">
-                      <input type="text" class="form-control mb-2" id="lname" placeholder="Last name" name="lname">
-                      <input type="text" class="form-control mb-2" id="email" placeholder="Email" name="email">
-                      <input type="password" class="form-control mb-2" placeholder="Password" name="pswd">
+                      <input th:field="*{firstName}" type="text" class="form-control mb-2" id="fname" placeholder="First name" name="fname">
+                      <!-- <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
+                        role="alert">Validation error</div> -->
+                      
+                      <input th:field="*{lastName}" type="text" class="form-control mb-2" id="lname" placeholder="Last name" name="lname">
+                      <!-- <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
+                        role="alert">Validation error</div> -->
+
+                      <input th:field="*{email}" type="text" class="form-control mb-2" id="email" placeholder="Email" name="email">
+                      <!-- <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger p-2"
+                        role="alert">Validation error</div> -->
+
+                      <input th:field="*{password}" type="password" class="form-control mb-2" placeholder="Password" name="pswd">
+                      <!-- <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger p-2"
+                        role="alert">Validation error</div> -->
+
+                      <input th:field="*{matchingPassword}" type="password" class="form-control mb-2" placeholder="Retype password" name="pswd">
+                      <!-- <div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" class="alert alert-danger p-2"
+                        role="alert">Validation error</div> -->
                     </div>
 
                     <div class="col-4">
@@ -213,7 +228,7 @@
               <!-- Modal footer -->
               <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
-                <button type="submit" form="create-user" class="btn btn-md btn-outline-secondary m-2">Create</button>
+                <!-- <button type="submit" form="create-user" class="btn btn-md btn-outline-secondary m-2">Create</button> -->
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
             </div>

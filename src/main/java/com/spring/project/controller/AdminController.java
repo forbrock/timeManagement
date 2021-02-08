@@ -1,7 +1,6 @@
 package com.spring.project.controller;
 
 import com.spring.project.dto.RegistrationDto;
-import com.spring.project.dto.UserDto;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.User;
 import com.spring.project.model.enums.Role;
@@ -9,7 +8,7 @@ import com.spring.project.model.enums.State;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
-@Slf4j
+@Log4j2
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -38,8 +37,10 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String showAllUsers(Model model) {
+    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto, Model model) {
         model.addAttribute("users", userService.getAllUsers());
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("states", State.values());
         return "users";
     }
 
@@ -58,9 +59,6 @@ public class AdminController {
     @PostMapping("/create")
     public String createNewUser(@ModelAttribute("user") @Valid RegistrationDto regDto,
                                 BindingResult bindingResult, Model model) {
-        model.addAttribute("roles", Role.values());
-        model.addAttribute("states", State.values());
-
         if (bindingResult.hasErrors()) {
             return "users";
         }
