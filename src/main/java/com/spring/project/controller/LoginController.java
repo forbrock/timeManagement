@@ -5,14 +5,14 @@ import com.spring.project.exceptions.CredentialsException;
 import com.spring.project.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
 @Controller
-@RequestMapping("/auth")
 public class LoginController {
     private final UserService userService;
 
@@ -27,13 +27,12 @@ public class LoginController {
                                 Model model) {
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
-        return "login";
+        return "/login";
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/login")
     public String loginUser(LoginDto loginDto) throws CredentialsException {
         userService.getUser(loginDto);
-        return "redirect:/user_page";
+        return "redirect:/index";
     }
 }

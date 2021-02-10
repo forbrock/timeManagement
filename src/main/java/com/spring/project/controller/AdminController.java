@@ -1,10 +1,15 @@
 package com.spring.project.controller;
 
+import com.spring.project.dto.ActivityDto;
+import com.spring.project.dto.CategoryDto;
 import com.spring.project.dto.RegistrationDto;
+import com.spring.project.dto.UpdateUserDto;
+import com.spring.project.exceptions.ActivityAlreadyExistException;
+import com.spring.project.exceptions.CategoryAlreadyExistException;
 import com.spring.project.exceptions.UserAlreadyExistException;
+import com.spring.project.model.Activity;
+import com.spring.project.model.Category;
 import com.spring.project.model.User;
-import com.spring.project.model.enums.Role;
-import com.spring.project.model.enums.State;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserService;
@@ -33,6 +38,11 @@ public class AdminController {
         this.activityService = activityService;
     }
 
+    @GetMapping
+    public String showAdminPage() {
+        return "admin";
+    }
+
     @GetMapping("/users")
     public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto, Model model,
                                BindingResult bindingResult) {
@@ -43,27 +53,13 @@ public class AdminController {
         return "users";
     }
 
-    @GetMapping
-    public String showAdminPage() {
-        return "admin";
-    }
+    @PostMapping("/users")
+    public String createNewUser(@ModelAttribute("user") @Valid RegistrationDto regDto,
+                                BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "users";
+        }
 
-    @GetMapping("/categories")
-    public String showCategories(Model model) {
-        model.addAttribute("categories", categoryService.getAllCategories());
-        return "categories";
-    }
-
-    @GetMapping("/activities")
-    public String showActivities(Model model) {
-        model.addAttribute("activities", activityService.getAllActivities());
-        return "activities";
-    }
-
-    @PostMapping("/create")
-    public String createNewUser(@ModelAttribute("user")
-                                    @Valid RegistrationDto regDto, Model model) {
-        // TODO: move "try-catch" to the service
         try {
             User created = userService.registerNewAccount(regDto);
         } catch (UserAlreadyExistException e) {
@@ -72,6 +68,117 @@ public class AdminController {
                     "An account for this email already exists");
             return "users";
         }
-        return "redirect:/users";
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("/user/edit/{id}")
+    public String showEditUserForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        return "edit_user";
+    }
+
+    @PostMapping("/user/edit/{id}")
+    public String editUser(@PathVariable("id") long id, UpdateUserDto userDto,
+                           BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "user/edit/{id}";
+        }
+        userService.update(userDto);
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable("id") long id) {
+        userService.deleteById(id);
+        return "redirect:/admin/users";
+    }
+
+    @GetMapping("/categories")
+    public String showCategories(@ModelAttribute("category") CategoryDto categoryDto, Model model) {
+        model.addAttribute("categories", categoryService.getAll());
+        return "categories";
+    }
+
+    @PostMapping("/categories")
+    public String createNewCategory(@ModelAttribute("category") CategoryDto categoryDto,Model model) {
+
+        try {
+            Category created = categoryService.create(categoryDto);
+        } catch (CategoryAlreadyExistException e) {
+            log.error("Category with such name ({}) already exist", categoryDto.getName());
+            model.addAttribute("error_message",
+                    "Such category already exists");
+            return "categories";
+        }
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/category/edit/{id}")
+    public String showEditCategoryForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("category", categoryService.getById(id));
+        return "edit_category";
+    }
+
+    @PostMapping("/category/edit/{id}")
+    public String editCategory(@PathVariable("id") long id, CategoryDto categoryDto,
+                           BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "category/edit/{id}";
+        }
+        categoryService.update(categoryDto);
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/category/delete/{id}")
+    public String deleteCategory(@PathVariable("id") long id) {
+        categoryService.deleteById(id);
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/activities")
+    public String showActivities(@ModelAttribute("activity") ActivityDto activityDto, Model model) {
+        model.addAttribute("activities", activityService.getAll());
+        return "activities";
+    }
+
+    @PostMapping("/activities")
+    public String createNewActivity(@ModelAttribute("activity") ActivityDto activityDto, Model model) {
+
+        try {
+            Activity created = activityService.create(activityDto);
+        } catch (ActivityAlreadyExistException e) {
+            log.error("Activity with such name ({}) already exist", activityDto.getName());
+            model.addAttribute("error_message",
+                    "Such activity already exists");
+            return "activities";
+        }
+        return "redirect:/admin/activities";
+    }
+
+    @GetMapping("/activity/edit/{id}")
+    public String showEditActivityForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("activity", activityService.getById(id));
+        return "edit_activity";
+    }
+
+    @PostMapping("/activity/edit/{id}")
+    public String editActivity(@PathVariable("id") long id, ActivityDto activityDto,
+                               BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "activity/edit/{id}";
+        }
+        activityService.update(activityDto);
+        return "redirect:/admin/activities";
+    }
+
+    @GetMapping("/activity/delete/{id}")
+    public String deleteActivity(@PathVariable("id") long id) {
+        activityService.deleteById(id);
+        return "redirect:/admin/activities";
+    }
+
+    @GetMapping("/test")
+    public void throwException() {
+        throw new RuntimeException("TEST EXCEPTION");
     }
 }

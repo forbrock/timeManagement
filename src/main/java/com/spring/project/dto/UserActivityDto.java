@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class UserActivityDto {
+    // TODO: check required fields before using
     private Long userId;
     private Long activityId;
     private ActivityState state;

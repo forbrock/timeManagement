@@ -29,10 +29,6 @@ public class Category {
     @JoinColumn(name = "categories_id", referencedColumnName = "id", nullable = false)
     private Set<Activity> activities;
 
-    @Column(name = "category_state", length = 20, columnDefinition = "varchar(20) default 'ACTIVE'", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private State state;
-
     @Column(name = "created")
     @CreatedDate
     private LocalDateTime created = LocalDateTime.now();

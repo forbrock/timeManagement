@@ -1,9 +1,6 @@
 package com.spring.project.dto.mapper;
 
-import com.spring.project.dto.LoginDto;
-import com.spring.project.dto.UserDto;
-import com.spring.project.dto.RegistrationDto;
-import com.spring.project.dto.UserActivityDto;
+import com.spring.project.dto.*;
 import com.spring.project.model.User;
 import com.spring.project.model.UserActivity;
 import org.mapstruct.Mapper;
@@ -23,4 +20,6 @@ public interface UserMapper {
 
     @Mapping(target = "enabled", constant = "true")
     User loginDtoToUser(LoginDto loginDto);
+
+    User updateDtoToUser(UpdateUserDto updateUserDto);
 }

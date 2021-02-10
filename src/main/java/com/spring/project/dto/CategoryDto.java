@@ -1,9 +1,9 @@
 package com.spring.project.dto;
 
-import com.spring.project.model.enums.State;
-import lombok.*;
-
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -12,7 +12,4 @@ import java.time.LocalDateTime;
 public class CategoryDto {
     private Long id;
     private String name;
-    private State state;
-    private LocalDateTime created;
-    private LocalDateTime lastModified;
 }

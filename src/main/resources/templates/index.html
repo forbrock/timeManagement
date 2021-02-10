@@ -15,6 +15,9 @@
 <body>
     <header class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 bg-white border-bottom shadow-sm">
         <a style="text-decoration: none; font-size: 16pt;" class="brand my-0 mr-auto text-dark" href="/">Time Management</a>
+        
+        <div style="color: #6c757d" th:text="${#authentication.name}">logged user email</div>
+        
         <nav class="my-2 my-md-0 me-md-3" sec:authorize="hasAuthority('ADMIN')">
             <a class="p-2 text-dark" href="#" th:text="#{admin.dashboard.link}" th:href="@{/admin}">Dashboard</a>
         </nav>

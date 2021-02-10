@@ -2,6 +2,7 @@ package com.spring.project.service;
 
 import com.spring.project.dto.LoginDto;
 import com.spring.project.dto.RegistrationDto;
+import com.spring.project.dto.UpdateUserDto;
 import com.spring.project.dto.UserDto;
 import com.spring.project.dto.mapper.UserMapper;
 import com.spring.project.exceptions.CredentialsException;
@@ -11,17 +12,17 @@ import com.spring.project.model.enums.Role;
 import com.spring.project.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Log4j2
 @Service
@@ -67,6 +68,34 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new CredentialsException("Invalid credentials"));
         log.info("{} successfully logged in", loginDto.getEmail());
         return user;
+    }
+
+    public User getCurrentLoggedUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user;
+    }
+
+    public User getById(Long id) {
+        return userRepository.findById(id).orElseThrow(() ->
+                new UsernameNotFoundException("No such user was found, id: " + id));
+    }
+
+    @Transactional
+    public User update(UpdateUserDto updateUserDto) {
+        User user = userRepository.findById(updateUserDto.getId()).orElseThrow(() ->
+                new UsernameNotFoundException("No such user with id: " + updateUserDto.getId()));
+        user.setFirstName(updateUserDto.getFirstName());
+        user.setLastName(updateUserDto.getLastName());
+        return userRepository.save(user);
+    }
+
+    public Long deleteById(long id) {
+        try {
+            userRepository.deleteById(id);
+        } catch (NoSuchElementException e) {
+            log.info("Deleted user with id: " + id);
+        }
+        return id;
     }
 
     @Override

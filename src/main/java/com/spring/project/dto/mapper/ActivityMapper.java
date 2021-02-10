@@ -9,4 +9,5 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ActivityMapper {
     List<ActivityDto> mapActivityToActivityDto(List<Activity> activities);
+    Activity dtoToActivity(ActivityDto activityDto);
 }

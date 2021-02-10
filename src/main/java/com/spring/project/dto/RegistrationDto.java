@@ -1,5 +1,6 @@
 package com.spring.project.dto;
 
+import com.spring.project.additional.validation.PasswordMatches;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@PasswordMatches
 public class RegistrationDto {
     @NotEmpty(message = "{valid.reg.not_empty}")
     @Size(min = 2, max = 30, message = "{valid.name.size}")
@@ -24,7 +26,7 @@ public class RegistrationDto {
 
     @Email(message = "{valid.reg.email}")
     @NotEmpty(message = "{valid.reg.not_empty}")
-    @Size(min = 2, max = 15, message = "{valid.email.size}")
+    @Size(min = 5, max = 50, message = "{valid.email.size}")
     private String email;
 
     @NotEmpty(message = "{valid.reg.not_empty}")

@@ -1,0 +1,69 @@
+<html>
+<body>
+    <div th:fragment="add_user">
+        <button class="btn btn-sm btn-outline-secondary m-2" data-toggle="modal" data-target="#userModal">
+            <span th:text="#{users.new_user}">Add user</span>
+        </button>
+        <!-- The Modal -->
+        <div class="modal fade" id="userModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title" th:text="#{users.add_new_user}">Add new user</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form action="#" method="post" id="create-user" th:action="@{/admin/users}" th:object="${user}">
+                            <div class="row">
+                                <div class="col-8">
+                                    <input th:field="*{firstName}" type="text" class="form-control mb-2" id="firstName"
+                                        placeholder="" th:placeholder="#{reg.first_name}" name="firstName">
+                                    <!-- <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
+                                            role="alert">Validation error</div> -->
+
+                                    <input th:field="*{lastName}" type="text" class="form-control mb-2" id="lastName"
+                                        placeholder="" th:placeholder="#{reg.last_name}" name="lastName">
+                                    <!-- <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
+                                            role="alert">Validation error</div> -->
+
+                                    <input th:field="*{email}" type="text" class="form-control mb-2" id="email"
+                                        placeholder="" th:placeholder="#{reg.email}" name="email">
+                                    <!-- <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger p-2"
+                                            role="alert">Validation error</div> -->
+
+                                    <input th:field="*{password}" type="password" class="form-control mb-2"
+                                        placeholder="" th:placeholder="#{reg.password}" name="password">
+                                    <!-- <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="alert alert-danger p-2"
+                                             role="alert">Validation error</div> -->
+
+                                    <input th:field="*{matchingPassword}" type="password" class="form-control mb-2"
+                                        placeholder="" th:placeholder="#{reg.confirm_password}" name="matchingPassword">
+                                    <!-- <div th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" class="alert alert-danger p-2"
+                                            role="alert">Validation error</div> -->
+                                </div>
+                                <div>
+                                    <select class="form-control form-control" name="role">
+                                        <option value="user" th:text="#{role.user}">USER</option>
+                                        <option value="admin" th:text="#{role.admin}">ADMIN</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
+                        <button type="submit" form="create-user"
+                            class="btn btn-md btn-outline-secondary m-2" th:th:text="#{button.create}">Create</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" th:th:text="#{button.close}">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
