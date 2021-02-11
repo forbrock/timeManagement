@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://wwww.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title th:text="#{login.title}">Please sign in</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous"/>
+    <div th:replace="fragments/login_page :: head_tag"></div>
 </head>
 <body>
 <div class="container">
+    <!-- Lang menu  -->
+    <div th:replace="fragments/lang_menu :: lang"></div>
+
     <form class="form-signin" method="post" action="/login" th:action="@{/login}">
         <h2 class="form-signin-heading"th:text="#{login.title}">Sign in</h2>
-        <span style="background-color: rgb(99, 214, 151)" th:text="${logout} ? 'You have been signed out' : ''"></span>
+        <span style="background-color: rgb(22, 209, 106)" th:text="${logout} ? 'You have been signed out' : ''"></span>
         <span style="background-color: rgb(248, 215, 218)" th:text="${error} ? 'Wrong email or password' : ''"></span>
-
+        <!-- <span style="color: rgb(22, 209, 106)" th:if="${logout}" th:text="#{message}"></span> -->
+        <!-- <span style="color: rgb(236, 68, 82)" th:if="${error}" th:text="#{error}"></span> -->
         <!-- <div th:if="{param.logout}" class="alert alert-success" role="alert">You have been signed out</div> -->
                 
         <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="#{login.wrong_credential}">Wrong email or password</div>
@@ -31,14 +29,7 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.login}">Log In</button>
         <div class="my-sm-3 m-3 text-right"><a href="/registration" th:text="#{login.sign_up}">Sign up</a></div>
     </form>
-
-    <!-- <div class="aboutLanguage">
-        <span th:text="#{lang.change}"></span>:
-        <a href="?lang=en" th:text="#{lang.en}">english</a>
-        /
-        <a href="?lang=uk" th:text="#{lang.uk}">ukrainian</a>
-    </div> -->
-
 </div>
+<div th:replace="fragments/login_page :: footer"></div>
 </body>
 </html>

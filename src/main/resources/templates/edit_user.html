@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
                 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
-		<div th:replace="fragments/admin_page :: headTag"></div>
+		<div th:replace="fragments/admin_page :: head"></div>
 	</head>
 
   <body>
@@ -21,7 +21,7 @@
             <form action="#" method="post" id="edit-user" th:action="@{/admin/user/edit/{id}(id=${user.getId()})}" th:object="${user}">
               <div class="form-group row">
                 <label for="firstName" class="col-sm-2 col-form-label">First name</label>
-                <div class="col-sm-10">
+                <div class="w-50">
                   <input type="text" class="form-control" id="firstName" placeholder="" 
                     th:placeholder="#{reg.first_name}" th:field="*{firstName}">
                   <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
@@ -30,7 +30,7 @@
               </div>
               <div class="form-group row">
                 <label for="lastName" class="col-sm-2 col-form-label">Last name</label>
-                <div class="col-sm-10">
+                <div class="w-50">
                   <input type="text" class="form-control" id="lastName" placeholder="" 
                     th:placeholder="#{reg.last_name}" th:field="*{lastName}">
                   <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
@@ -38,11 +38,11 @@
                 </div>
               </div>
               <div>
-                <select class="form-control" name="role">
+                <select class="form-control" name="role" style="width:auto;">
                   <option value="user" th:text="#{role.user}">USER</option>
                   <option value="admin" th:text="#{role.admin}">ADMIN</option>
                 </select>
-              <button type="submit" class="btn btn-sm btn-outline-secondary m-2">Save</button>
+              <button type="submit" class="btn btn-sm btn-outline-secondary mt-3" th:text="#{button.save}">Save</button>
             </form>
           </main>
                   

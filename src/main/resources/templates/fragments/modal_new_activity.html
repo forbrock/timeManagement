@@ -25,6 +25,13 @@
                                         <!-- <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger p-2"
                                                 role="alert">Validation error</div> -->
                                     </div>
+                                    <div class="col-5">
+                                        <select class="form-control" name="category" th:object="${categories}">
+                                            <option value="cat" th:each="category : ${categories}"
+                                                                th:value="${category.id}"
+                                                                th:text="${category.name}">Category</option>
+                                          </select>
+                                    </div>
                                 </div>
                             </form>
                         </div>

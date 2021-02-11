@@ -1,6 +1,6 @@
 <html>
 	<body>
-		<div th:fragment="headTag">
+		<div th:fragment="head">
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 			<title>Time Management</title>
@@ -8,6 +8,7 @@
 			<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 			<!-- Custom styles for this template -->
 			<link href="../public/css/admin.css" th:href="@{/css/admin.css}" rel="stylesheet">
+			<link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.2.0/mdb.min.css" rel="stylesheet" />
 			<style>
 				a.disabled {
 				/* Make the disabled links grayish*/
@@ -36,7 +37,31 @@
 				<form id="logout-form" action="/logout" method="POST"></form>
 				<ul class="navbar-nav px-3 ml-auto">
 					<li class="nav-item text-nowrap">
-						<button type="submit" form="logout-form" class="btn nav-link">Sign out</button>
+						<!-- Lang menu  -->
+						<div class="btn-group nav-item text-nowrap shadow-0">
+							<a class="btn dropdown-toggle text-white" data-mdb-toggle="dropdown"
+								aria-expanded="false" th:text="#{lang.change}">Lang</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a class="dropdown-item" href="?lang=en">
+										<img src="img/united-kingdom.svg" alt="user-image" class="mr-1" height="18">
+										<span class="align-middle"  th:text="#{lang.en}">English</span>
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="?lang=uk">
+										<img src="img/ukraine.svg" alt="user-image" class="mr-1" height="18">
+										<span class="align-middle" th:text="#{lang.uk}">Ukrainian</span>
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="?lang=ru">
+										<img src="img/russia.svg" alt="user-image" class="mr-1" height="18">
+										<span class="align-middle" th:text="#{lang.ru}">Russian</span>
+									</a>
+								</li>
+							</ul>
+						</div>
 					</li>
 					<li class="nav-item text-nowrap">
 						<button type="submit" form="logout-form" class="btn nav-link">Sign out</button>
@@ -115,6 +140,8 @@
 			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.2.0/mdb.min.js"></script>
 		</div>		
 	</body>
+
 </html>

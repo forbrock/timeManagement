@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <div th:replace="fragments/admin_page :: headTag"></div>
+  <div th:replace="fragments/admin_page :: head"></div>
 </head>
 <body>
   <div th:replace="fragments/admin_page :: header"></div>
@@ -28,11 +28,17 @@
                 <tr>
                   <td><a th:text="${user.getFirstName() + ' ' + user.getLastName()}">full name</a></td>
                   <td><a th:text="${user.getEmail()}">email</a></td>
-                  <td><a th:unless="${user.enabled}" th:text="#{user.account.state.false}">state</a></td>
+                  <!-- <td><a th:unless="${user.enabled}" th:text="#{user.account.state.false}">state</a></td> -->
+                  <td>
+                    <span th:if="${user.getEnabled() == true}" th:text="ACTIVE"></span>
+                    <span th:if="${user.getEnabled() == false}" th:text="DISABLED"></span>
+                  </td>
                   <td><a class="m-2" href="#" th:text="#{button.edit}"
                       th:href="@{/admin/user/edit/{id}(id=${user.getId()})}">edit</a>
                     <a href="#" th:text="#{button.delete}"
                       th:href="@{/admin/user/delete/{id}(id=${user.getId()})}">delete</a>
+                    <a href="#" th:text="#{users.button.activities}"
+                      th:href="@{/admin/user/activities}">View activities</a>
                   </td>
                 </tr>
               </div>

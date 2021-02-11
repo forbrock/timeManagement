@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
                 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 	<head>
-		<div th:replace="fragments/admin_page :: headTag"></div>
+		<div th:replace="fragments/admin_page :: head"></div>
 	</head>
 
   <body>
@@ -27,6 +27,11 @@
                     role="alert">Validation error</div>
                 </div>
               </div>
+              <select class="form-control" name="category" th:object="${categories}">
+                <option value="cat" th:each="category : ${categories}"
+                                    th:value="${category.name}"
+                                    th:text="${category.name}">Category</option>
+              </select>
               <button type="submit" class="btn btn-sm btn-outline-secondary m-2" th:text="#{button.save}">Save</button>
             </form>
           </main>    

@@ -11,8 +11,9 @@
     <div class="container" style="margin-top: 50px;">
         <div class="error-body">
             <h3>Something went wrong!</h3>
-            <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
-            <p th:utext="${errorMessage}">Error</p>
+            <h1 th:text="|${httpStatus.reasonPhrase}|">404</h1>
+            <p style="font-size: 22px;" th:utext="${exception}">Error</p>
+            <p th:utext="${url}">Url</p>
             <a href="#" th:href="@{/}">Back to Home Page</a>
         </div>
     </div>

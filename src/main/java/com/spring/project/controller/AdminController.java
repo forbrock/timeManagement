@@ -10,6 +10,7 @@ import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.Activity;
 import com.spring.project.model.Category;
 import com.spring.project.model.User;
+import com.spring.project.model.UserActivity;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserService;
@@ -19,8 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @Log4j2
 @Controller
@@ -61,7 +64,7 @@ public class AdminController {
         }
 
         try {
-            User created = userService.registerNewAccount(regDto);
+            userService.registerNewAccount(regDto);
         } catch (UserAlreadyExistException e) {
             log.error("User with such email ({}) already exist", regDto.getEmail());
             model.addAttribute("error_message",
@@ -71,6 +74,7 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
+    // TODO: add possibility to change user role
     @GetMapping("/user/edit/{id}")
     public String showEditUserForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getById(id));
@@ -138,11 +142,13 @@ public class AdminController {
     @GetMapping("/activities")
     public String showActivities(@ModelAttribute("activity") ActivityDto activityDto, Model model) {
         model.addAttribute("activities", activityService.getAll());
+        model.addAttribute("categories", categoryService.getAll());
         return "activities";
     }
 
     @PostMapping("/activities")
-    public String createNewActivity(@ModelAttribute("activity") ActivityDto activityDto, Model model) {
+    public String createNewActivity(@ModelAttribute("activity") ActivityDto activityDto,
+                                    @RequestParam("category") String category, Model model) {
 
         try {
             Activity created = activityService.create(activityDto);
@@ -158,6 +164,7 @@ public class AdminController {
     @GetMapping("/activity/edit/{id}")
     public String showEditActivityForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("activity", activityService.getById(id));
+        model.addAttribute("categories", categoryService.getAll());
         return "edit_activity";
     }
 
@@ -180,5 +187,19 @@ public class AdminController {
     @GetMapping("/test")
     public void throwException() {
         throw new RuntimeException("TEST EXCEPTION");
+    }
+
+    @RequestMapping(value="/test2", method = RequestMethod.GET,  headers="Accept=*/*")
+    public @ResponseBody ModelAndView oneFaultyMethod() {
+        if(true) {
+            throw new NullPointerException("This error message if for demo only.");
+        }
+        return null;
+    }
+
+    @GetMapping("/user/{id}/activities")
+    public String showUserActivities(@RequestParam("id") long id, Model model) {
+        final Set<UserActivity> userActivities = userService.getById(id).getActivities();
+        return "user_activities";
     }
 }

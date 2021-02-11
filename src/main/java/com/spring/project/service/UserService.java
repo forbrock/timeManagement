@@ -12,9 +12,6 @@ import com.spring.project.model.enums.Role;
 import com.spring.project.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,13 +23,14 @@ import java.util.NoSuchElementException;
 
 @Log4j2
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
     private UserRepository userRepository;
     private UserMapper mapper;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper mapper, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserMapper mapper,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
@@ -45,7 +43,6 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User registerNewAccount(RegistrationDto regDto)
             throws UserAlreadyExistException {
-
         User user = mapper.regDtoToUser(regDto);
 
         if (emailExist(user.getEmail())) {
@@ -70,11 +67,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public User getCurrentLoggedUser() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user;
-    }
-
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new UsernameNotFoundException("No such user was found, id: " + id));
@@ -96,11 +88,5 @@ public class UserService implements UserDetailsService {
             log.info("Deleted user with id: " + id);
         }
         return id;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(() ->
-                new UsernameNotFoundException(email));
     }
 }

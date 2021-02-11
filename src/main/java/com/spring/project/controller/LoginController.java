@@ -21,14 +21,29 @@ public class LoginController {
         this.userService = userService;
     }
 
+    // TODO: inform DISABLED users about that when they are logging
     @GetMapping("/login")
     public String showLoginPage(@RequestParam(value = "error", required = false) String error,
                                 @RequestParam(value = "logout", required = false) String logout,
                                 Model model) {
         model.addAttribute("error", error != null);
         model.addAttribute("logout", logout != null);
-        return "/login";
+        return "login";
     }
+
+/*
+    @GetMapping("/login")
+    public String showLoginPage(Model model, String error, String logout) {
+        if (error != null) {
+            model.addAttribute("error", "login.wrong_credential");
+        }
+
+        if (logout != null) {
+            model.addAttribute("message", "button.logged.out");
+        }
+        return "login";
+    }
+*/
 
     @PostMapping("/login")
     public String loginUser(LoginDto loginDto) throws CredentialsException {

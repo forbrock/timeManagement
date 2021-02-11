@@ -1,0 +1,32 @@
+<html>
+
+<body>
+    <div th:fragment="lang">
+        <div class="btn-group shadow-0 float-right">
+            <button type="button" class="btn btn-link dropdown-toggle text-dark" data-mdb-toggle="dropdown"
+                aria-expanded="false" th:text="#{lang.change}">Lang</button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="?lang=en">
+                        <img src="img/united-kingdom.svg" alt="user-image" class="mr-1" height="18">
+                        <span class="align-middle" th:text="#{lang.en}">English</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="?lang=uk">
+                        <img src="img/ukraine.svg" alt="user-image" class="mr-1" height="18">
+                        <span class="align-middle">Ukrainian</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="?lang=ru">
+                        <img src="img/russia.svg" th:src="@{img/russia.svg}" alt="user-image" class="mr-1" height="18">
+                        <span class="align-middle" th:text="#{lang.ru}">Russian</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
