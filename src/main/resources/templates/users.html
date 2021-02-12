@@ -1,26 +1,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
   <div th:replace="fragments/admin_page :: head"></div>
 </head>
+
 <body>
   <div th:replace="fragments/admin_page :: header"></div>
+
   <div class="container-fluid">
-    <div class="row">     
+    <div class="row">
       <div th:replace="fragments/admin_page :: dashboard"></div>
+
       <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
-        <div
-          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-          <h1 class="h2" th:text="#{users.title}">Users</h1>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+          <h1 class="h2" th:text="#{admin.users.title}">Users</h1>
         </div>
         <div class="table-responsive">
           <table class="table table-striped size-sm">
             <thead>
               <tr>
-                <th>full name</th>
-                <th>email</th>
-                <th>state</th>
-                <th>actions</th>
+                <th th:text="#{admin.users.table.head.full.name}">full name</th>
+                <th th:text="#{admin.users.table.head.email}">email</th>
+                <th th:text="#{admin.users.table.head.state}">state</th>
+                <th th:text="#{admin.users.table.head.actions}">actions</th>
               </tr>
             </thead>
             <tbody>
@@ -28,23 +31,24 @@
                 <tr>
                   <td><a th:text="${user.getFirstName() + ' ' + user.getLastName()}">full name</a></td>
                   <td><a th:text="${user.getEmail()}">email</a></td>
-                  <!-- <td><a th:unless="${user.enabled}" th:text="#{user.account.state.false}">state</a></td> -->
                   <td>
-                    <span th:if="${user.getEnabled() == true}" th:text="ACTIVE"></span>
-                    <span th:if="${user.getEnabled() == false}" th:text="DISABLED"></span>
+                    <span th:if="${user.getEnabled() == true}" th:text="#{admin.users.table.state.active}"></span>
+                    <span th:if="${user.getEnabled() == false}" th:text="#{admin.users.table.state.disabled}"></span>
                   </td>
-                  <td><a class="m-2" href="#" th:text="#{button.edit}"
-                      th:href="@{/admin/user/edit/{id}(id=${user.getId()})}">edit</a>
-                    <a href="#" th:text="#{button.delete}"
-                      th:href="@{/admin/user/delete/{id}(id=${user.getId()})}">delete</a>
-                    <a href="#" th:text="#{users.button.activities}"
-                      th:href="@{/admin/user/activities}">View activities</a>
+                  <td>
+                    <a class="m-2" href="#" th:href="@{/admin/user/edit/{id}(id=${user.getId()})}" 
+                      th:text="#{admin.users.table.button.edit}">edit</a>
+                    <a href="#" th:href="@{/admin/user/delete/{id}(id=${user.getId()})}" 
+                      th:text="#{admin.users.table.button.disable}">disable</a>
+                    <a href="#" th:href="@{/admin/user/{id}/activities(id=${user.getId()})}" 
+                      th:text="#{admin.users.table.button.view}">View activities</a>
                   </td>
                 </tr>
               </div>
             </tbody>
           </table>
         </div>
+        
         <div th:replace="fragments/modal_new_user :: add_user"></div>
       </main>
     </div>
@@ -52,4 +56,5 @@
 
   <div th:replace="fragments/admin_page :: footer"></div>
 </body>
+
 </html>

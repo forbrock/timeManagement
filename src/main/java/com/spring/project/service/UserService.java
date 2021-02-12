@@ -46,10 +46,11 @@ public class UserService {
         User user = mapper.regDtoToUser(regDto);
 
         if (emailExist(user.getEmail())) {
-            log.warn("Trying to register a new account {}: There is an account with this email address",
-                    user.getEmail());
-            throw new UserAlreadyExistException("reg.login_not_unique");
+            log.warn("Trying to register a new account {}: " +
+                            "There is an account with this email address", user.getEmail());
+            throw new UserAlreadyExistException("reg.login.not.unique");
         }
+
         user.setRoles(Collections.singleton(Role.USER));
         user.setPassword(passwordEncoder.encode(regDto.getPassword()));
         return userRepository.save(user);
@@ -67,11 +68,13 @@ public class UserService {
         return user;
     }
 
+    // TODO: don't forget to remove id from exception output
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new UsernameNotFoundException("No such user was found, id: " + id));
     }
 
+    // TODO: don't forget to remove id from exception output
     @Transactional
     public User update(UpdateUserDto updateUserDto) {
         User user = userRepository.findById(updateUserDto.getId()).orElseThrow(() ->

@@ -19,14 +19,15 @@
             <div style="color: #6c757d" th:text="${#authentication.name}">logged user email</div>
             
             <nav class="my-2 my-md-0 me-md-3" sec:authorize="hasAuthority('ADMIN')">
-                <a class="p-2 text-dark" href="#" th:text="#{admin.dashboard.link}" th:href="@{/admin}">Dashboard</a>
+                <a class="p-2 text-dark" href="#" th:text="#{index.admin.dashboard.link}" th:href="@{/admin}">Dashboard</a>
             </nav>
     
             <!-- Lang menu  -->
             <div th:replace="fragments/lang_menu :: lang"></div>
     
             <form action="/logout" name="logout" method="POST">
-                <button type="submit" class="btn btn-outline-info ml-2" name="logout" value="logout">Sign out</button>
+                <button type="submit" class="btn btn-outline-info ml-2" name="logout" value="logout" 
+                    th:text="#{index.sign.out}">Sign out</button>
             </form>
         </header>
     </div>

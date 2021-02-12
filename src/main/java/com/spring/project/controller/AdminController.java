@@ -9,7 +9,6 @@ import com.spring.project.exceptions.CategoryAlreadyExistException;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.Activity;
 import com.spring.project.model.Category;
-import com.spring.project.model.User;
 import com.spring.project.model.UserActivity;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
@@ -20,10 +19,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -47,11 +46,8 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto, Model model,
-                               BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "users";
-        }
+    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto,
+                               BindingResult bindingResult, Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "users";
     }
@@ -68,7 +64,7 @@ public class AdminController {
         } catch (UserAlreadyExistException e) {
             log.error("User with such email ({}) already exist", regDto.getEmail());
             model.addAttribute("error_message",
-                    "An account for this email already exists");
+                    "reg.login.not.unique");
             return "users";
         }
         return "redirect:/admin/users";
@@ -155,7 +151,7 @@ public class AdminController {
         } catch (ActivityAlreadyExistException e) {
             log.error("Activity with such name ({}) already exist", activityDto.getName());
             model.addAttribute("error_message",
-                    "Such activity already exists");
+                    "activity.already.exist");
             return "activities";
         }
         return "redirect:/admin/activities";
@@ -184,22 +180,18 @@ public class AdminController {
         return "redirect:/admin/activities";
     }
 
-    @GetMapping("/test")
-    public void throwException() {
-        throw new RuntimeException("TEST EXCEPTION");
-    }
-
-    @RequestMapping(value="/test2", method = RequestMethod.GET,  headers="Accept=*/*")
-    public @ResponseBody ModelAndView oneFaultyMethod() {
-        if(true) {
-            throw new NullPointerException("This error message if for demo only.");
-        }
-        return null;
-    }
-
     @GetMapping("/user/{id}/activities")
     public String showUserActivities(@RequestParam("id") long id, Model model) {
-        final Set<UserActivity> userActivities = userService.getById(id).getActivities();
-        return "user_activities";
+        // TODO: current user activities logic
+        return "activities";
     }
+
+    //TODO: test activities right output, then replace by method above
+/*
+    @GetMapping("/user/{id}/activities")
+    @ResponseBody
+    public List<UserActivity> showUserActivities(@PathVariable("id") long id, Model model) {
+        return
+    }
+*/
 }

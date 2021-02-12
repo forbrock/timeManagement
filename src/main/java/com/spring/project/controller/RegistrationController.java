@@ -55,7 +55,7 @@ public class RegistrationController {
 //            securityService.autoLogin(registered.getEmail(), registered.getPassword());
         } catch (UserAlreadyExistException e) {
             bindingResult.rejectValue("email", "user.email",
-                    "reg.login_not_unique");
+                    "reg.login.not.unique");
             return "registration";
         }
         return "redirect:/";

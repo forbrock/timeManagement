@@ -10,11 +10,11 @@
 <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
     <div class="container" style="margin-top: 50px;">
         <div class="error-body">
-            <h3>Something went wrong!</h3>
+            <h3 th:text="#{error.page.common.message}">Something went wrong!</h3>
             <h1 th:text="|${httpStatus.reasonPhrase}|">404</h1>
             <p style="font-size: 22px;" th:utext="${exception}">Error</p>
             <p th:utext="${url}">Url</p>
-            <a href="#" th:href="@{/}">Back to Home Page</a>
+            <a href="#" th:href="@{/}" th:text="#{error.page.back.home}">Back to Home Page</a>
         </div>
     </div>
 </body>

@@ -1,46 +1,52 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-	<head>
-		<div th:replace="fragments/admin_page :: head"></div>
-	</head>
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
-  <body>
-  
-    <div th:replace="fragments/admin_page :: header"></div>
-  
-	<div class="container-fluid">
-      <div class="row">
-		<div th:replace="fragments/admin_page :: dashboard"></div>
-			
-		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
-          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <h1 class="h2" th:text="#{categories.title}">Categories</h1>
-            
-          </div>
+<head>
+  <div th:replace="fragments/admin_page :: head"></div>
+</head>
 
-          <div class="table-responsive">
-            <table class="table table-hover size-sm">
-                <thead>
+<body>
+  <div th:replace="fragments/admin_page :: header"></div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div th:replace="fragments/admin_page :: dashboard"></div>
+
+      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+          <h1 class="h2" th:text="#{admin.categories.title}">Categories</h1>
+
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover size-sm">
+            <thead>
+              <tr>
+                <th th:text="#{admin.categories.table.head.name}">name</th>
+                <th th:text="#{admin.categories.table.head.actions}">actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <div th:if="${categories}" th:each="category : ${categories}">
                 <tr>
-                    <th th:text="#{category.name}">name</th>
-                    <th th:text="#{actions.name}">actions</th>
+                  <td><a th:text="${category.getName()}">name</a></td>
+                  <td><a class="m-2" href="#" th:text="#{admin.categories.table.button.edit}"
+                      th:href="@{/admin/category/edit/{id}(id=${category.getId()})}">edit</a>
+                    <a href="#" th:text="#{admin.categories.table.button.disable}"
+                      th:href="@{/admin/category/delete/{id}(id=${category.getId()})}">disable</a>
+                  </td>
                 </tr>
-                </thead>
-                <tbody>
-                  <div th:if="${categories}" th:each="category : ${categories}">
-                      <tr>
-                          <td><a th:text="${category.getName()}">name</a></td>
-                          <td><a class="m-2" href="#" th:text="#{button.edit}" th:href="@{/admin/category/edit/{id}(id=${category.getId()})}">edit</a>
-                              <a href="#" th:text="#{button.delete}" th:href="@{/admin/category/delete/{id}(id=${category.getId()})}">delete</a></td>
-                      </tr>
-                  </div>
-                </tbody>
-            </table>
-          </div>
-          <div th:replace="fragments/modal_new_category :: add_category"></div>
-        </main>
-      </div>
+              </div>
+            </tbody>
+          </table>
+        </div>
+
+        <div th:replace="fragments/modal_new_category :: add_category"></div>
+      </main>
     </div>
-    <div th:replace="fragments/admin_page :: footer"></div>
- </body>
- </html>
+  </div>
+  
+  <div th:replace="fragments/admin_page :: footer"></div>
+</body>
+
+</html>

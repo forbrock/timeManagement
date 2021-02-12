@@ -15,34 +15,38 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
             <div
               class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-              <h1 class="h2" th:text="#{edit.user.title}">Edit user</h1>
+              <h1 class="h2" th:text="#{admin.edit.user.title}">Edit user</h1>
             </div>
 
-            <form action="#" method="post" id="edit-user" th:action="@{/admin/user/edit/{id}(id=${user.getId()})}" th:object="${user}">
+            <form action="#" method="post" id="edit-user" th:action="@{/admin/user/edit/{id}(id=${user.getId()})}" 
+              th:object="${user}">
               <div class="form-group row">
-                <label for="firstName" class="col-sm-2 col-form-label">First name</label>
+                <label for="firstName" class="col-sm-2 col-form-label" 
+                  th:text="#{admin.edit.user.form.label.first.name}">First name</label>
                 <div class="w-50">
                   <input type="text" class="form-control" id="firstName" placeholder="" 
-                    th:placeholder="#{reg.first_name}" th:field="*{firstName}">
+                    th:placeholder="#{admin.edit.user.form.placeholder.first.name}" th:field="*{firstName}">
                   <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="alert alert-danger p-2"
                     role="alert">Validation error</div>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="lastName" class="col-sm-2 col-form-label">Last name</label>
+                <label for="lastName" class="col-sm-2 col-form-label" 
+                  th:text="#{admin.edit.user.form.label.last.name}">Last name</label>
                 <div class="w-50">
                   <input type="text" class="form-control" id="lastName" placeholder="" 
-                    th:placeholder="#{reg.last_name}" th:field="*{lastName}">
+                    th:placeholder="#{admin.edit.user.form.placeholder.last.name}" th:field="*{lastName}">
                   <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="alert alert-danger p-2"
                     role="alert">Validation error</div>
                 </div>
               </div>
               <div>
                 <select class="form-control" name="role" style="width:auto;">
-                  <option value="user" th:text="#{role.user}">USER</option>
-                  <option value="admin" th:text="#{role.admin}">ADMIN</option>
+                  <option value="user" th:text="#{admin.edit.user.form.role.user}">USER</option>
+                  <option value="admin" th:text="#{admin.edit.user.form.role.admin}">ADMIN</option>
                 </select>
-              <button type="submit" class="btn btn-sm btn-outline-secondary mt-3" th:text="#{button.save}">Save</button>
+              <button type="submit" class="btn btn-sm btn-outline-secondary mt-3" 
+                th:text="#{admin.edit.user.form.button.save}">Save</button>
             </form>
           </main>
                   

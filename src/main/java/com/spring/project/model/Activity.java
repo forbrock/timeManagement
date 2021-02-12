@@ -23,7 +23,7 @@ public class Activity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", length = 35, unique = true, nullable = false)
     private String name;
 
     @Column(name = "created")
@@ -34,8 +34,7 @@ public class Activity {
     @LastModifiedDate
     private LocalDateTime lastModified;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<UserActivity> activities;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

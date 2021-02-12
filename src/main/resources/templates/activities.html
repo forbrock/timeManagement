@@ -14,7 +14,7 @@
 			
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <h1 class="h2" th:text="#{activities.title}">Activities</h1>
+            <h1 class="h2" th:text="#{admin.activities.title}">Activities</h1>
             
           </div>
 
@@ -22,9 +22,9 @@
             <table class="table table-hover size-sm">
                 <thead>
                 <tr>
-                    <th>name</th>
-                    <th>category</th>
-                    <th>actions</th>
+                    <th th:text="#{admin.activities.table.head.category}">category</th>
+                    <th th:text="#{admin.activities.table.head.name}">name</th>
+                    <th th:text="#{admin.activities.table.head.actions}">actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,8 +32,12 @@
                     <tr>
                         <td><a th:text="${activity.getName()}">name</a></td>
                         <td><a>category</a></td>
-                        <td><a class="m-2" href="#" th:text="Edit" th:href="@{/admin/activity/edit/{id}(id=${activity.getId()})}">edit</a>
-                            <a href="#" th:text="Delete" th:href="@{/admin/activity/delete/{id}(id=${activity.getId()})}">delete</a></td>
+                        <td>
+                          <a class="m-2" href="#" th:text="#{admin.activities.table.button.edit}" 
+                            th:href="@{/admin/activity/edit/{id}(id=${activity.getId()})}">edit</a>
+                            <a href="#" th:text="#{admin.activities.table.button.disable}" 
+                              th:href="@{/admin/activity/delete/{id}(id=${activity.getId()})}">disable</a>
+                          </td>
                     </tr>
                 </div>
                 </tbody>

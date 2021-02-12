@@ -2,7 +2,7 @@
     <body>
         <div th:fragment="add_category">
             <button class="btn btn-sm btn-outline-secondary m-2" data-toggle="modal" data-target="#categoryModal">
-                <span th:text="#{users.new_category}">Add new category</span>
+                <span th:text="#{modal.new.category.button.add}">Add new category</span>
             </button>
             <!-- The Modal -->
             <div class="modal fade" id="categoryModal">
@@ -11,7 +11,7 @@
     
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title" th:text="#{users.new_user}">Add new category</h4>
+                            <h4 class="modal-title" th:text="#{modal.new.category.header}">Add new category</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
     
@@ -21,7 +21,7 @@
                                 <div class="row">
                                     <div class="col-8">
                                         <input th:field="*{name}" type="text" class="form-control mb-2"
-                                            placeholder="" th:placeholder="#{reg.category.name}">
+                                            placeholder="" th:placeholder="#{modal.new.category.placeholder.name}"/>
                                         <!-- <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger p-2"
                                                 role="alert">Validation error</div> -->
                                     </div>
@@ -32,8 +32,8 @@
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button> -->
                             <button type="submit" form="create-category"
-                                class="btn btn-md btn-outline-secondary m-2" th:text="#{button.create}">Create</button>
-                            <button type="button" class="btn btn-primary" data-dismiss="modal" th:text="#{button.close}">Close</button>
+                                class="btn btn-md btn-outline-secondary m-2" th:text="#{modal.new.category.button.create}">Create</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" th:text="#{modal.new.category.button.close}">Close</button>
                         </div>
                     </div>
                 </div>

@@ -1,14 +1,14 @@
 package com.spring.project.model;
 
-import com.spring.project.model.enums.State;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -22,12 +22,8 @@ public class Category {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", length = 35, unique = true, nullable = false)
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "categories_id", referencedColumnName = "id", nullable = false)
-    private Set<Activity> activities;
 
     @Column(name = "created")
     @CreatedDate

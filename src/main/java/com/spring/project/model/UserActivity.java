@@ -9,23 +9,27 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
-@Table(name = "users_activities")
+@Table(name = "users_activities",
+        uniqueConstraints={
+        @UniqueConstraint(columnNames = {"activity_id", "user_id"})
+})
 public class UserActivity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @EmbeddedId
-    private UserActivityKey id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("userId")
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("activityId")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "activity_id", nullable = false)
     private Activity activity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "activity_state", length = 20, columnDefinition = "varchar(20) default 'UNSIGNED'", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -38,4 +42,5 @@ public class UserActivity {
     @Column(name = "accepted")
     @DateTimeFormat
     private LocalDateTime accepted;
+
 }

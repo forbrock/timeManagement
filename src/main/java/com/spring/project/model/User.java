@@ -55,11 +55,6 @@ public class User implements UserDetails {
     @LastModifiedDate
     private LocalDateTime lastModified;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<UserActivity> activities;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.getRoles();

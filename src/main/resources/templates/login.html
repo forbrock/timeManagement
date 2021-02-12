@@ -16,18 +16,18 @@
         <!-- <span style="color: rgb(236, 68, 82)" th:if="${error}" th:text="#{error}"></span> -->
         <!-- <div th:if="{param.logout}" class="alert alert-success" role="alert">You have been signed out</div> -->
                 
-        <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="#{login.wrong_credential}">Wrong email or password</div>
+        <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="#{login.wrong.credential}">Wrong email or password</div>
         <p>
             <input type="text" id="email" name="email" class="form-control" placeholder="Email" 
-                th:placeholder="#{login.email}" required autofocus>
+                th:placeholder="#{login.email.placeholder}" required autofocus>
         </p>
         <p>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" 
-                th:placeholder="#{login.password}" required>
+                th:placeholder="#{login.password.placeholder}" required>
         </p>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.login}">Log In</button>
-        <div class="my-sm-3 m-3 text-right"><a href="/registration" th:text="#{login.sign_up}">Sign up</a></div>
+        <div class="my-sm-3 m-3 text-right"><a href="/registration" th:text="#{login.sign.up}">Sign up</a></div>
     </form>
 </div>
 <div th:replace="fragments/login_page :: footer"></div>
