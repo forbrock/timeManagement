@@ -13,9 +13,30 @@
 			<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
 				<div
 					class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">Dashboard</h1>
+					<h1 class="h2" th:text="#{admin.main}">Pending requests</h1>
 				</div>
-				<!-- content here -->
+				<table class="table table-striped table-sm mt-3">
+                    <thead>
+                        <tr>
+                            <th th:text="#{index.tab.current.table.head.user}">user</th>
+                            <th th:text="#{index.tab.current.table.head.category}">category</th>
+                            <th th:text="#{index.tab.current.table.head.activity}">activity</th>
+                            <th th:text="#{index.tab.current.table.head.state}">state</th>
+                            <th th:text="#{index.tab.current.table.head.actions}">actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <div th:each="ua : ${userActivities}">
+                            <tr>
+                                <td><span th:text="${ua.getUser().getEmail()}">user</span></td>
+                                <td><span th:text="${ua.getActivity().getCategory().getName()}">category</span></td>
+                                <td><span th:text="${ua.getActivity().getName()}">activity</span></td>
+                                <td><span th:text="${ua.getState()}">state</span></td>
+                                <td><span>actions</span></td>
+                            </tr>
+                        </div>
+                    </tbody>
+                </table>
 			</main>
 		</div>
 	</div>

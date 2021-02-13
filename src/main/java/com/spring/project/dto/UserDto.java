@@ -1,9 +1,6 @@
 package com.spring.project.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -25,11 +22,13 @@ public class UserDto {
     @Size(min = 2, max = 30, message = "{valid.name.size}")
     private String lastName;
 
+    @ToString.Exclude
     @Email(message = "{valid.reg.email}")
     @NotEmpty(message = "{valid.reg.not_empty}")
     @Size(min = 2, max = 25, message = "{valid.email.size}")
     private String email;
 
+    @ToString.Exclude
     @NotEmpty(message = "{valid.reg.not_empty}")
     private String password;
 

@@ -19,7 +19,7 @@
         </div>
 
         <div class="table-responsive">
-          <table class="table table-hover size-sm">
+          <table class="table table-striped table-sm mt-3">
             <thead>
               <tr>
                 <th th:text="#{admin.categories.table.head.name}">name</th>
@@ -32,7 +32,7 @@
                   <td><a th:text="${category.getName()}">name</a></td>
                   <td><a class="m-2" href="#" th:text="#{admin.categories.table.button.edit}"
                       th:href="@{/admin/category/edit/{id}(id=${category.getId()})}">edit</a>
-                    <a href="#" th:text="#{admin.categories.table.button.disable}"
+                    <a href="#" th:text="#{admin.categories.table.button.delete}"
                       th:href="@{/admin/category/delete/{id}(id=${category.getId()})}">disable</a>
                   </td>
                 </tr>

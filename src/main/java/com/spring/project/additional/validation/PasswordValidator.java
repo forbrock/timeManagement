@@ -16,7 +16,7 @@ public class PasswordValidator implements Validator {
     public void validate(Object target, Errors errors) {
         RegistrationDto user = (RegistrationDto) target;
         if (!user.getMatchingPassword().equals(user.getPassword())) {
-            errors.rejectValue("matchingPassword", "valid.password.matching");
+            errors.rejectValue("matchingPassword", "valid.reg.password.matching");
         }
     }
 }

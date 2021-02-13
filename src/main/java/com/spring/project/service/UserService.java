@@ -7,14 +7,20 @@ import com.spring.project.dto.UserDto;
 import com.spring.project.dto.mapper.UserMapper;
 import com.spring.project.exceptions.CredentialsException;
 import com.spring.project.exceptions.UserAlreadyExistException;
+import com.spring.project.model.Activity;
 import com.spring.project.model.User;
+import com.spring.project.model.UserActivity;
+import com.spring.project.model.enums.ActivityState;
 import com.spring.project.model.enums.Role;
+import com.spring.project.repository.ActivityRepository;
+import com.spring.project.repository.UserActivityRepository;
 import com.spring.project.repository.UserRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
@@ -27,13 +33,24 @@ public class UserService {
     private UserRepository userRepository;
     private UserMapper mapper;
     private PasswordEncoder passwordEncoder;
+    private SecurityService securityService;
+    private ActivityRepository activityRepository;
+    private UserActivityRepository userActivityRepository;
+    private ModelAndView mav;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper mapper,
-                       PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository,
+                       UserMapper mapper,
+                       PasswordEncoder passwordEncoder,
+                       SecurityService securityService,
+                       ActivityRepository activityRepository,
+                       UserActivityRepository userActivityRepository) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
+        this.securityService = securityService;
+        this.activityRepository = activityRepository;
+        this.userActivityRepository = userActivityRepository;
     }
 
     public List<UserDto> getAllUsers() {
@@ -63,8 +80,8 @@ public class UserService {
     public User getUser(LoginDto loginDto) throws CredentialsException {
         User user = userRepository
                 .findByEmailAndPassword(loginDto.getEmail(), loginDto.getPassword())
-                .orElseThrow(() -> new CredentialsException("Invalid credentials"));
-        log.info("{} successfully logged in", loginDto.getEmail());
+                .orElseThrow(() -> new CredentialsException("valid.login.wrong.credential"));
+        log.info("User {} successfully logged in", loginDto.getEmail());
         return user;
     }
 

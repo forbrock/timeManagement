@@ -12,8 +12,10 @@ import com.spring.project.model.Category;
 import com.spring.project.model.UserActivity;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
+import com.spring.project.service.UserActivityService;
 import com.spring.project.service.UserService;
 import lombok.extern.log4j.Log4j2;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,17 +34,20 @@ public class AdminController {
     private UserService userService;
     private CategoryService categoryService;
     private ActivityService activityService;
+    private UserActivityService userActivityService;
 
     @Autowired
     public AdminController(UserService userService, CategoryService categoryService,
-                           ActivityService activityService) {
+                           ActivityService activityService, UserActivityService userActivityService) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.activityService = activityService;
+        this.userActivityService = userActivityService;
     }
 
     @GetMapping
-    public String showAdminPage() {
+    public String showAdminPage(Model model) {
+        model.addAttribute("userActivities", userActivityService.getRequestedActivities());
         return "admin";
     }
 
@@ -49,14 +55,14 @@ public class AdminController {
     public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto,
                                BindingResult bindingResult, Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "users";
+        return "admin_users";
     }
 
     @PostMapping("/users")
     public String createNewUser(@ModelAttribute("user") @Valid RegistrationDto regDto,
                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return "users";
+            return "admin_users";
         }
 
         try {
@@ -65,16 +71,16 @@ public class AdminController {
             log.error("User with such email ({}) already exist", regDto.getEmail());
             model.addAttribute("error_message",
                     "reg.login.not.unique");
-            return "users";
+            return "admin_users";
         }
-        return "redirect:/admin/users";
+        return "redirect:/admin/admin_users";
     }
 
     // TODO: add possibility to change user role
     @GetMapping("/user/edit/{id}")
     public String showEditUserForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getById(id));
-        return "edit_user";
+        return "admin_edit_user";
     }
 
     @PostMapping("/user/edit/{id}")
@@ -96,7 +102,7 @@ public class AdminController {
     @GetMapping("/categories")
     public String showCategories(@ModelAttribute("category") CategoryDto categoryDto, Model model) {
         model.addAttribute("categories", categoryService.getAll());
-        return "categories";
+        return "admin_categories";
     }
 
     @PostMapping("/categories")
@@ -108,7 +114,7 @@ public class AdminController {
             log.error("Category with such name ({}) already exist", categoryDto.getName());
             model.addAttribute("error_message",
                     "Such category already exists");
-            return "categories";
+            return "admin_categories";
         }
         return "redirect:/admin/categories";
     }
@@ -116,7 +122,7 @@ public class AdminController {
     @GetMapping("/category/edit/{id}")
     public String showEditCategoryForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("category", categoryService.getById(id));
-        return "edit_category";
+        return "admin_edit_category";
     }
 
     @PostMapping("/category/edit/{id}")
@@ -136,23 +142,23 @@ public class AdminController {
     }
 
     @GetMapping("/activities")
-    public String showActivities(@ModelAttribute("activity") ActivityDto activityDto, Model model) {
+    public String showActivities(Model model) {
         model.addAttribute("activities", activityService.getAll());
         model.addAttribute("categories", categoryService.getAll());
-        return "activities";
+        return "admin_activities";
     }
 
     @PostMapping("/activities")
-    public String createNewActivity(@ModelAttribute("activity") ActivityDto activityDto,
-                                    @RequestParam("category") String category, Model model) {
-
+    public String createNewActivity(@ModelAttribute("activity") ActivityDto activityDto, Model model) {
         try {
             Activity created = activityService.create(activityDto);
         } catch (ActivityAlreadyExistException e) {
             log.error("Activity with such name ({}) already exist", activityDto.getName());
             model.addAttribute("error_message",
                     "activity.already.exist");
-            return "activities";
+            return "admin_activities";
+        } catch (SQLException e) {
+            log.error("Trying to create new activity failure, name: {}", activityDto.getName());
         }
         return "redirect:/admin/activities";
     }
@@ -161,7 +167,7 @@ public class AdminController {
     public String showEditActivityForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("activity", activityService.getById(id));
         model.addAttribute("categories", categoryService.getAll());
-        return "edit_activity";
+        return "admin_edit_activity";
     }
 
     @PostMapping("/activity/edit/{id}")
@@ -181,17 +187,14 @@ public class AdminController {
     }
 
     @GetMapping("/user/{id}/activities")
-    public String showUserActivities(@RequestParam("id") long id, Model model) {
-        // TODO: current user activities logic
-        return "activities";
+    public String showUserActivities(@PathVariable("id") long id, Model model) {
+        model.addAttribute("userActivities", activityService.getUserActivitiesById(id));
+        return "admin_user_activities";
     }
 
-    //TODO: test activities right output, then replace by method above
-/*
-    @GetMapping("/user/{id}/activities")
-    @ResponseBody
-    public List<UserActivity> showUserActivities(@PathVariable("id") long id, Model model) {
-        return
+    @GetMapping("/user/activity/delete/{id}")
+    public String deleteUserActivity(@PathVariable("id") long id) {
+        userActivityService.deleteById(id);
+        return "admin_user_activities";
     }
-*/
 }

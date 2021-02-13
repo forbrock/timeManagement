@@ -18,8 +18,7 @@
               <h1 class="h2" th:text="#{admin.edit.user.title}">Edit user</h1>
             </div>
 
-            <form action="#" method="post" id="edit-user" th:action="@{/admin/user/edit/{id}(id=${user.getId()})}" 
-              th:object="${user}">
+            <form action="#" method="post" id="edit-user" th:action="@{/admin/user/edit/{id}(id=${user.getId()})}" th:object="${user}">
               <div class="form-group row">
                 <label for="firstName" class="col-sm-2 col-form-label" 
                   th:text="#{admin.edit.user.form.label.first.name}">First name</label>

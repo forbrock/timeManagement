@@ -1,9 +1,9 @@
 package com.spring.project.dto;
 
+import com.spring.project.model.Activity;
+import com.spring.project.model.User;
 import com.spring.project.model.enums.ActivityState;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,10 +11,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class UserActivityDto {
-    // TODO: check required fields before using
-    private Long userId;
     private Long activityId;
+    private Activity activity;
+    private User user;
     private ActivityState state;
-    private LocalDateTime created;
-    private LocalDateTime accepted;
 }

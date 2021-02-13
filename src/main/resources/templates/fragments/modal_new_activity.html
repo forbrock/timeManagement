@@ -17,10 +17,10 @@
     
                         <!-- Modal body -->
                         <div class="modal-body">
-                            <form action="#" method="post" id="create-activity" th:action="@{/admin/activities}" th:object="${activity}">
+                            <form action="#" method="post" id="create-activity" th:action="@{/admin/activities}">
                                 <div class="row">
                                     <div class="col-8">
-                                        <input th:field="*{name}" type="text" class="form-control mb-2" 
+                                        <input type="text" class="form-control mb-2" name="name"
                                             placeholder="" th:placeholder="#{modal.new.activity.placeholder.name}">
                                         <!-- <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger p-2"
                                                 role="alert">Validation error</div> -->

@@ -17,7 +17,7 @@
           <h1 class="h2" th:text="#{admin.users.title}">Users</h1>
         </div>
         <div class="table-responsive">
-          <table class="table table-striped size-sm">
+          <table class="table table-striped table-sm mt-3">
             <thead>
               <tr>
                 <th th:text="#{admin.users.table.head.full.name}">full name</th>
@@ -39,7 +39,7 @@
                     <a class="m-2" href="#" th:href="@{/admin/user/edit/{id}(id=${user.getId()})}" 
                       th:text="#{admin.users.table.button.edit}">edit</a>
                     <a href="#" th:href="@{/admin/user/delete/{id}(id=${user.getId()})}" 
-                      th:text="#{admin.users.table.button.disable}">disable</a>
+                      th:text="#{admin.users.table.button.delete}">delete</a>
                     <a href="#" th:href="@{/admin/user/{id}/activities(id=${user.getId()})}" 
                       th:text="#{admin.users.table.button.view}">View activities</a>
                   </td>

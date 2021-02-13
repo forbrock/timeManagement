@@ -28,6 +28,7 @@ public class User implements UserDetails {
     @Column(name = "email", length = 50, unique = true, nullable = false)
     private String email;
 
+    @ToString.Exclude
     @Column(name = "password", length = 100, nullable = false)
     private String password;
 

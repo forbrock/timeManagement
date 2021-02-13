@@ -7,35 +7,42 @@ import com.spring.project.model.Activity;
 import com.spring.project.model.User;
 import com.spring.project.model.UserActivity;
 import com.spring.project.repository.ActivityRepository;
+import com.spring.project.repository.UserActivityRepository;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-@Slf4j
+@Log4j2
 @Service
 public class ActivityService {
     private ActivityRepository activityRepository;
     private ActivityMapper mapper;
     private SecurityService securityService;
+    private UserActivityRepository userActivityRepository;
 
     @Autowired
     public ActivityService(ActivityRepository activityRepository,
-                           ActivityMapper mapper, SecurityService securityService) {
+                           ActivityMapper mapper,
+                           SecurityService securityService,
+                           UserActivityRepository userActivityRepository) {
         this.activityRepository = activityRepository;
         this.securityService = securityService;
         this.mapper = mapper;
+        this.userActivityRepository = userActivityRepository;
     }
 
     @Transactional
     public Activity create(ActivityDto activityDto)
-            throws ActivityAlreadyExistException {
+            throws ActivityAlreadyExistException, SQLException {
 
         Activity activity = mapper.dtoToActivity(activityDto);
         return activityRepository.save(activity);
@@ -49,7 +56,9 @@ public class ActivityService {
     @Transactional
     public Activity update(ActivityDto activityDto) {
         Activity activity = activityRepository.findById(activityDto.getId()).orElseThrow(() ->
-                new UsernameNotFoundException("No such user with id: " + activityDto.getId()));
+                new NoSuchElementException(
+                        String.format("Can not update ctivity '%s'. Not found!",
+                                activityDto.getName())));
         String oldName = activity.getName();
         activity.setName(activityDto.getName());
         activity.setLastModified(LocalDateTime.now());
@@ -73,8 +82,12 @@ public class ActivityService {
                 new NoSuchElementException("No such activity was found, id: " + id));
     }
 
-    public Set<UserActivity> getCurrentUserActivities() {
+    public List<UserActivity> getCurrentUserActivities() {
         final User currentLoggedUser = securityService.getCurrentLoggedUser();
-        return null;
+        return userActivityRepository.findByUserId(currentLoggedUser.getId());
+    }
+
+    public List<UserActivity> getUserActivitiesById(long id) {
+        return userActivityRepository.findByUserId(id);
     }
 }

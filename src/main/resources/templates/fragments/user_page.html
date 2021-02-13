@@ -25,7 +25,7 @@
             <!-- Lang menu  -->
             <div th:replace="fragments/lang_menu :: lang"></div>
     
-            <form action="/logout" name="logout" method="POST">
+            <form action="" th:action="@{/logout}" name="logout" method="POST">
                 <button type="submit" class="btn btn-outline-info ml-2" name="logout" value="logout" 
                     th:text="#{index.sign.out}">Sign out</button>
             </form>

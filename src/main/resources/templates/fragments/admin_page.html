@@ -22,7 +22,7 @@
 		<div th:fragment="header">
 			<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
 				<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" th:href="@{/}">Time management</a>
-				<form id="logout-form" action="/logout" method="POST"></form>
+				<form id="logout-form" action="#" th:action="@{/logout}" method="POST"></form>
 				<ul class="navbar-nav px-3 ml-auto">
 					<li class="nav-item text-nowrap">
 						<!-- Lang menu  -->
@@ -32,13 +32,13 @@
 							<ul class="dropdown-menu">
 								<li>
 									<a class="dropdown-item" href="?lang=en">
-										<img src="../img/united-kingdom.svg" alt="user-image" class="mr-1" height="18">
+										<img th:src="@{~/img/united-kingdom.svg}" alt="user-image" class="mr-1" height="18">
 										<span class="align-middle"  th:text="#{lang.en}">English</span>
 									</a>
 								</li>
 								<li>
 									<a class="dropdown-item" href="?lang=uk">
-										<img src="../img/ukraine.svg" alt="user-image" class="mr-1" height="18">
+										<img th:src="@{~/img/ukraine.svg}" alt="user-image" class="mr-1" height="18">
 										<span class="align-middle" th:text="#{lang.uk}">Ukrainian</span>
 									</a>
 								</li>

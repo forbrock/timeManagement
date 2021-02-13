@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.validation.Valid;
+
 @Log4j2
 @Controller
 public class LoginController {
@@ -46,7 +48,7 @@ public class LoginController {
 */
 
     @PostMapping("/login")
-    public String loginUser(LoginDto loginDto) throws CredentialsException {
+    public String loginUser(@Valid LoginDto loginDto) throws CredentialsException {
         userService.getUser(loginDto);
         return "redirect:/index";
     }

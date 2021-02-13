@@ -10,20 +10,19 @@
 
     <form class="form-signin" method="post" action="/login" th:action="@{/login}">
         <h2 class="form-signin-heading"th:text="#{login.title}">Sign in</h2>
-        <span style="background-color: rgb(22, 209, 106)" th:text="${logout} ? 'You have been signed out' : ''"></span>
-        <span style="background-color: rgb(248, 215, 218)" th:text="${error} ? 'Wrong email or password' : ''"></span>
+        <!-- <span style="background-color: rgb(22, 209, 106)" th:text="${logout} ? 'You have been signed out' : ''"></span> -->
+        <!-- <span style="background-color: rgb(248, 215, 218)" th:text="${error} ? 'Wrong email or password' : ''"></span> -->
         <!-- <span style="color: rgb(22, 209, 106)" th:if="${logout}" th:text="#{message}"></span> -->
         <!-- <span style="color: rgb(236, 68, 82)" th:if="${error}" th:text="#{error}"></span> -->
-        <!-- <div th:if="{param.logout}" class="alert alert-success" role="alert">You have been signed out</div> -->
-                
-        <div th:if="${loginError}" class="alert alert-danger" role="alert" th:text="#{login.wrong.credential}">Wrong email or password</div>
+        <div th:if="${param.logout != null}" class="alert alert-success" role="alert" th:text="#{valid.login.logged.out.success}">You signed out</div>       
+        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="#{valid.login.wrong.credential}">Login error</div>
         <p>
             <input type="text" id="email" name="email" class="form-control" placeholder="Email" 
-                th:placeholder="#{login.email.placeholder}" required autofocus>
+                th:placeholder="#{login.email.placeholder}" autofocus>
         </p>
         <p>
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" 
-                th:placeholder="#{login.password.placeholder}" required>
+                th:placeholder="#{login.password.placeholder}">
         </p>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.login}">Log In</button>

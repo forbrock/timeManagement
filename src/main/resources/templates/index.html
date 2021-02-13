@@ -21,26 +21,29 @@
         </div>
         <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <table class="table table-striped table-sm mt-3">
-                <thead>
-                    <tr>
-                        <th th:text="#{index.tab.current.table.head.category}">category</th>
-                        <th th:text="#{index.tab.current.table.head.name}">name</th>
-                        <th th:text="#{index.tab.current.table.head.accepted}">accepted</th>
-                        <th th:text="#{index.tab.current.table.head.actions}">actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <div th:each="activity : ${activities}">
+                <table class="table table-striped table-sm mt-3">
+                    <thead>
                         <tr>
-                            <td><a th:text="${activity.getId()}" th:href="@{/{id}(id=${activity.getId()})}">id</a></td>
-                            <td><a th:text="${activity.getName()}" th:href="@{/{id}(id=${activity.getId()})}">name</a></td>
-                            <td><a th:text="${activity.getAge()}" th:href="@{/{id}(id=${activity.getId()})}">age</a></td>
-                            <td><a th:text="${activity.getEmail()}" th:href="@{/{id}(id=${activity.getId()})}">email</a></td>
+                            <th th:text="#{index.tab.current.table.head.category}">category</th>
+                            <th th:text="#{index.tab.current.table.head.activity}">activity</th>
+                            <th th:text="#{index.tab.current.table.head.state}">state</th>
+                            <th th:text="#{index.tab.current.table.head.actions}">actions</th>
                         </tr>
-                    </div>
-                </tbody>
-            </table></div>
+                    </thead>
+                    <tbody>
+                        <div th:each="ua : ${userActivities}"
+                             th:if="${ua.getState().name == 'ACCEPTED'}">
+                            <tr>
+                                <td><span th:text="${ua.getActivity().getCategory().getName()}">category</span></td>
+                                <td><span th:text="${ua.getActivity().getName()}">activity</span></td>
+                                <td><span th:text="${ua.getState()}">accepted</span></td>
+                                <td><span>actions</span></td>
+                            </tr>
+                        </div>
+                    </tbody>
+                </table>
+                <div th:replace="fragments/modal_new_user_activity :: add_activity"></div>
+            </div>
 
             <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                 <table class="table table-striped table-sm mt-3">
@@ -53,14 +56,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div th:each="activity : ${people}">
+                        <!-- <div th:each="ua : ${userActivities}">
                             <tr>
-                                <td><a th:text="${activity.getId()}" th:href="@{/{id}(id=${activity.getId()})}">id</a></td>
-                                <td><a th:text="${activity.getName()}" th:href="@{/{id}(id=${activity.getId()})}">name</a></td>
-                                <td><a th:text="${activity.getAge()}" th:href="@{/{id}(id=${activity.getId()})}">age</a></td>
-                                <td><a th:text="${activity.getEmail()}" th:href="@{/{id}(id=${activity.getId()})}">email</a></td>
+                                <td><a th:text="${ua.getActivity().getCategory().getName()}">category</a></td>
+                                <td><a th:text="${ua.getActivity().getName()}">name</a></td>
+                                <td><a th:text="${ua.getState()}">accepted</a></td>
+                                <td><a th:text="$some buttons">actions</a></td>
                             </tr>
-                        </div>
+                        </div> -->
                     </tbody>
                 </table></div>
             <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
@@ -74,18 +77,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <div th:each="activity : ${people}">
+                        <!-- <div th:each="ua : ${userActivities}">
                             <tr>
-                                <td><a th:text="${activity.getId()}" th:href="@{/{id}(id=${activity.getId()})}">id</a></td>
-                                <td><a th:text="${activity.getName()}" th:href="@{/{id}(id=${activity.getId()})}">name</a></td>
-                                <td><a th:text="${activity.getAge()}" th:href="@{/{id}(id=${activity.getId()})}">age</a></td>
-                                <td><a th:text="${activity.getEmail()}" th:href="@{/{id}(id=${activity.getId()})}">email</a></td>
+                                <td><a th:text="${ua.getActivity().getCategory().getName()}">category</a></td>
+                                <td><a th:text="${ua.getActivity().getName()}">name</a></td>
+                                <td><a th:text="${ua.getState()}">accepted</a></td>
+                                <td><a th:text="$some buttons">actions</a></td>
                             </tr>
-                        </div>
+                        </div> -->
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="alert alert-success alert-dismissible" role="alert" th:text="#{index.requested.activity.message.success}" 
+            th:if="${requestedActivitySuccess}"></div>
+        <div class="alert alert-danger alert-dismissible" role="alert" th:text="${index.requested.activity.message.failure}" 
+            th:if="${error_message}"></div>
     </div>
     <div th:replace="fragments/user_page :: footer"></div>
 </body>
