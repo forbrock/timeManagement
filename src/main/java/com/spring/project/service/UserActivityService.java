@@ -1,6 +1,5 @@
 package com.spring.project.service;
 
-import com.spring.project.dto.ActivityDto;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
 import com.spring.project.model.Activity;
 import com.spring.project.model.User;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -71,5 +69,15 @@ public class UserActivityService {
         log.info("New activity requested: user {}, category {}, activity {}",
                 user.getEmail(), activity.getCategory(), activity.getName());
         return userActivity;
+    }
+
+    @Transactional
+    public UserActivity confirmRequest(long id) {
+        UserActivity ua = userActivityRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException(String.format("User activity with id %d not found", id)));
+        ua.setState(ActivityState.ACCEPTED);
+        log.info("Accepted activity [User: {}, activity: {}]",
+                ua.getUser().getEmail(), ua.getActivity().getName());
+        return userActivityRepository.save(ua);
     }
 }

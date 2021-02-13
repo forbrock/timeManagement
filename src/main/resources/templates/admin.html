@@ -32,7 +32,10 @@
                                 <td><span th:text="${ua.getActivity().getCategory().getName()}">category</span></td>
                                 <td><span th:text="${ua.getActivity().getName()}">activity</span></td>
                                 <td><span th:text="${ua.getState()}">state</span></td>
-                                <td><span>actions</span></td>
+                                <td>
+                                    <a type="button" class="btn btn-outline-success" th:text="#{admin.user.activities.table.button.confirm}" 
+                                        th:href="@{/admin/request/confirm/{id}(id=${ua.getId()})}">Confirm</a>
+                                </td>
                             </tr>
                         </div>
                     </tbody>

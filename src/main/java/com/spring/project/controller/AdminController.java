@@ -197,4 +197,10 @@ public class AdminController {
         userActivityService.deleteById(id);
         return "admin_user_activities";
     }
+
+    @GetMapping("/request/confirm/{id}")
+    public String confirmUserRequest(@PathVariable("id") long id) {
+        userActivityService.confirmRequest(id);
+        return "redirect:/admin";
+    }
 }
