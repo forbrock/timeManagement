@@ -1,21 +1,16 @@
 package com.spring.project.controller;
 
-import com.spring.project.dto.ActivityDto;
-import com.spring.project.dto.CategoryDto;
-import com.spring.project.dto.RegistrationDto;
-import com.spring.project.dto.UpdateUserDto;
+import com.spring.project.dto.*;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
 import com.spring.project.exceptions.CategoryAlreadyExistException;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.Activity;
 import com.spring.project.model.Category;
-import com.spring.project.model.UserActivity;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserActivityService;
 import com.spring.project.service.UserService;
 import lombok.extern.log4j.Log4j2;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -37,8 +31,10 @@ public class AdminController {
     private UserActivityService userActivityService;
 
     @Autowired
-    public AdminController(UserService userService, CategoryService categoryService,
-                           ActivityService activityService, UserActivityService userActivityService) {
+    public AdminController(UserService userService,
+                           CategoryService categoryService,
+                           ActivityService activityService,
+                           UserActivityService userActivityService) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.activityService = activityService;
@@ -188,7 +184,7 @@ public class AdminController {
 
     @GetMapping("/user/{id}/activities")
     public String showUserActivities(@PathVariable("id") long id, Model model) {
-        model.addAttribute("userActivities", activityService.getUserActivitiesById(id));
+        model.addAttribute("userActivities", userActivityService.getUserActivitiesById(id));
         return "admin_user_activities";
     }
 
@@ -209,5 +205,12 @@ public class AdminController {
     public String deleteUserRequest(@PathVariable("id") long id) {
         userActivityService.deleteRequest(id);
         return "redirect:/admin";
+    }
+
+    @GetMapping("/report")
+    public String showReports(Model model) {
+        model.addAttribute("allActivities",
+                userActivityService.combineUserActivities(userActivityService.getAll()));
+        return "admin_report";
     }
 }

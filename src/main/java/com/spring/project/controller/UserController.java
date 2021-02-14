@@ -1,12 +1,10 @@
 package com.spring.project.controller;
 
-import com.spring.project.dto.ActivityDto;
-import com.spring.project.dto.UserActivityDto;
-import com.spring.project.dto.mapper.ActivityMapper;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
-import com.spring.project.model.Activity;
+import com.spring.project.model.TimeLog;
 import com.spring.project.model.UserActivity;
 import com.spring.project.service.ActivityService;
+import com.spring.project.service.TimeLogService;
 import com.spring.project.service.UserActivityService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -23,34 +20,42 @@ import java.util.List;
 public class UserController {
     private ActivityService activityService;
     private UserActivityService userActivityService;
-    private ActivityMapper mapper;
+    private TimeLogService timeLogService;
 
     @Autowired
     public UserController(ActivityService activityService,
-                          ActivityMapper mapper,
-                          UserActivityService userActivityService) {
+                          UserActivityService userActivityService,
+                          TimeLogService timeLogService) {
         this.activityService = activityService;
-        this.mapper = mapper;
         this.userActivityService = userActivityService;
+        this.timeLogService = timeLogService;
     }
 
     @GetMapping
     public String showUserPage(Model model) {
-        model.addAttribute("userActivities", activityService.getCurrentUserActivities());
+        model.addAttribute("userActivities",
+                userActivityService.combineUserActivities(userActivityService.getCurrentUserActivities()));
         model.addAttribute("activities", activityService.getAll());
         return "index";
     }
 
-    // TODO: show an error message when trying to add a duplicate entry
-    @PostMapping("/user/request")
+    @PostMapping
     public String requestNewActivity(@RequestParam("activityId") long id, Model model) {
 
         try {
             UserActivity ua = userActivityService.requestActivity(id);
         } catch (ActivityAlreadyExistException e) {
-            model.addAttribute("error_message",
-                    "valid.user.request.activity.duplicate");
+            model.addAttribute("error_message", true);
+            return "index";
         }
+        model.addAttribute("success_message", true);
+        return "index";
+    }
+
+    @PostMapping("/time/{id}/add")
+    public String addActivityTime(@PathVariable("id") long id,
+                                  @RequestParam("time") String time) {
+        timeLogService.addNewTimePoint(id, time);
         return "redirect:/";
     }
 }

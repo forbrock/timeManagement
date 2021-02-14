@@ -1,37 +1,49 @@
 package com.spring.project.service;
 
+import com.spring.project.dto.UserActivityDto;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
 import com.spring.project.model.Activity;
+import com.spring.project.model.TimeLog;
 import com.spring.project.model.User;
 import com.spring.project.model.UserActivity;
 import com.spring.project.model.enums.ActivityState;
 import com.spring.project.repository.ActivityRepository;
+import com.spring.project.repository.TimeLogRepository;
 import com.spring.project.repository.UserActivityRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
+import static org.springframework.data.util.Pair.toMap;
 
 @Log4j2
 @Service
 public class UserActivityService {
     private UserActivityRepository userActivityRepository;
-    private UserService userService;
     private SecurityService securityService;
     private ActivityRepository activityRepository;
+    private ActivityService activityService;
+    private TimeLogRepository timeLogRepository;
 
     @Autowired
     public UserActivityService(UserActivityRepository userActivityRepository,
                                ActivityRepository activityRepository,
                                SecurityService securityService,
-                               UserService userService) {
+                               ActivityService activityService,
+                               TimeLogRepository timeLogRepository) {
         this.userActivityRepository = userActivityRepository;
         this.activityRepository = activityRepository;
         this.securityService = securityService;
-        this.userService = userService;
+        this.activityService = activityService;
+        this.timeLogRepository = timeLogRepository;
     }
 
     public Long deleteById(long id) {
@@ -47,7 +59,6 @@ public class UserActivityService {
         return userActivityRepository.findByState(ActivityState.REQUESTED);
     }
 
-    // TODO: fix message for user when activity exists
     @Transactional
     public UserActivity requestActivity(long activityId) throws ActivityAlreadyExistException {
         User user = securityService.getCurrentLoggedUser();
@@ -86,4 +97,54 @@ public class UserActivityService {
         userActivityRepository.deleteById(id);
         return id;
     }
+
+    public List<UserActivity> getCurrentUserActivities() {
+        final User currentLoggedUser = securityService.getCurrentLoggedUser();
+        return userActivityRepository.findByUserId(currentLoggedUser.getId());
+    }
+
+    public List<UserActivity> getUserActivitiesById(long id) {
+        return userActivityRepository.findByUserId(id);
+    }
+
+    public List<UserActivityDto> combineUserActivities(List<UserActivity> userActivities) {
+        List<TimeLog> timeLogList = timeLogRepository.findByUserActivityIn(userActivities);
+
+        Map<Long, Double> totalSumOfEachUserActivity = timeLogList.stream()
+                .collect(groupingBy(el -> el.getUserActivity().getId(),
+                        summingDouble(TimeLog::getDuration)));
+
+        return userActivities.stream()
+                .map(el -> UserActivityDto.builder()
+                        .id(el.getId())
+                        .activity(el.getActivity())
+                        .state(el.getState())
+                        .duration(totalSumOfEachUserActivity.get(el.getId()))
+                        .user(el.getUser())
+                        .build()).collect(toList());
+    }
+
+    public List<UserActivity> getAll() {
+        return userActivityRepository.findAll();
+    }
+
+
+/*
+    public List<UserActivityDto> combineUserActivities() {
+        List<UserActivity> currentUserActivities = activityService.getCurrentUserActivities();
+        List<TimeLog> timeLogList = timeLogRepository.findByUserActivityIn(currentUserActivities);
+
+        Map<Long, Double> totalSumOfEachUserActivity = timeLogList.stream()
+                .collect(Collectors.groupingBy(el -> el.getUserActivity().getId(),
+                        summingDouble(TimeLog::getDuration)));
+
+        return currentUserActivities.stream()
+                .map(el -> UserActivityDto.builder()
+                        .id(el.getId())
+                        .activity(el.getActivity())
+                        .state(el.getState())
+                        .duration(totalSumOfEachUserActivity.get(el.getId()))
+                        .build()).collect(toList());
+    }
+*/
 }

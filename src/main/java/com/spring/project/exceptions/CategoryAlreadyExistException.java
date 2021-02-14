@@ -1,6 +1,6 @@
 package com.spring.project.exceptions;
 
-public class CategoryAlreadyExistException extends Exception {
+public class CategoryAlreadyExistException extends RuntimeException {
     public CategoryAlreadyExistException() {
     }
 

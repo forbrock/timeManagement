@@ -22,7 +22,7 @@ public class TimeLog {
     private Long id;
 
     @Column(name = "duration")
-    private Integer duration;
+    private Double duration;
 
     @Column(name = "start_date")
     @DateTimeFormat

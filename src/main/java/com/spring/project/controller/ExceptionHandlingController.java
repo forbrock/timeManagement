@@ -7,15 +7,17 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
 @ControllerAdvice
 public class ExceptionHandlingController {
     public static final String DEFAULT_ERROR_VIEW = "error";
 
+    // TODO: don't forget remove exception message
     @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+    @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("exception", e.getMessage());
         mav.addObject("url", req.getRequestURL());

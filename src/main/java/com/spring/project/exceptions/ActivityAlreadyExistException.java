@@ -1,6 +1,6 @@
 package com.spring.project.exceptions;
 
-public class ActivityAlreadyExistException extends Exception {
+public class ActivityAlreadyExistException extends RuntimeException {
     public ActivityAlreadyExistException() {
         super();
     }

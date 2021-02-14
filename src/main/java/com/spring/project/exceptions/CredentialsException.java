@@ -5,6 +5,6 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @ToString
-public class CredentialsException extends Exception{
+public class CredentialsException extends RuntimeException{
     private final String reason;
 }

@@ -11,8 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserActivityDto {
-    private Long activityId;
+    private Long id;
     private Activity activity;
-    private User user;
     private ActivityState state;
+    private Double duration;
+    private User user;
 }

@@ -33,20 +33,6 @@ public class LoginController {
         return "login";
     }
 
-/*
-    @GetMapping("/login")
-    public String showLoginPage(Model model, String error, String logout) {
-        if (error != null) {
-            model.addAttribute("error", "login.wrong_credential");
-        }
-
-        if (logout != null) {
-            model.addAttribute("message", "button.logged.out");
-        }
-        return "login";
-    }
-*/
-
     @PostMapping("/login")
     public String loginUser(@Valid LoginDto loginDto) throws CredentialsException {
         userService.getUser(loginDto);

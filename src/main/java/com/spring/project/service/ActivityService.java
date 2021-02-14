@@ -11,8 +11,10 @@ import com.spring.project.repository.UserActivityRepository;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
@@ -52,12 +54,11 @@ public class ActivityService {
         return mapper.mapActivityToActivityDto(activityRepository.findAll());
     }
 
-    // TODO: don't forget to remove id from exception output
     @Transactional
     public Activity update(ActivityDto activityDto) {
         Activity activity = activityRepository.findById(activityDto.getId()).orElseThrow(() ->
                 new NoSuchElementException(
-                        String.format("Can not update ctivity '%s'. Not found!",
+                        String.format("Can not update activity '%s'. Not found!",
                                 activityDto.getName())));
         String oldName = activity.getName();
         activity.setName(activityDto.getName());
@@ -76,18 +77,8 @@ public class ActivityService {
         return id;
     }
 
-    // TODO: don't forget to remove id from exception output
     public Activity getById(long id) {
         return activityRepository.findById(id).orElseThrow(() ->
-                new NoSuchElementException("No such activity was found, id: " + id));
-    }
-
-    public List<UserActivity> getCurrentUserActivities() {
-        final User currentLoggedUser = securityService.getCurrentLoggedUser();
-        return userActivityRepository.findByUserId(currentLoggedUser.getId());
-    }
-
-    public List<UserActivity> getUserActivitiesById(long id) {
-        return userActivityRepository.findByUserId(id);
+                new NoSuchElementException("No such activity was found"));
     }
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-                xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <div th:replace="fragments/user_page :: head"></div>
@@ -28,6 +27,7 @@
                             <th th:text="#{index.tab.current.table.head.activity}">activity</th>
                             <th th:text="#{index.tab.current.table.head.state}">state</th>
                             <th th:text="#{index.tab.current.table.head.time}">time</th>
+                            <th th:text="#{index.tab.current.table.head.total.time}">total time</th>
                             <th th:text="#{index.tab.current.table.head.actions}">actions</th>
                         </tr>
                     </thead>
@@ -39,11 +39,14 @@
                                 <td><span th:text="${ua.getActivity().getName()}">activity</span></td>
                                 <td><span th:text="${ua.getState()}">state</span></td>
                                 <td>
-                                    <form action="#" method="post">
-                                        <input type="number" name="time" min="0" max="12" step="0.5" required>
-                                          <input type="submit" value="Add time">
+                                    <form method="post" th:action="@{/time/{id}/add(id=${ua.getId()})}">
+                                        <fieldset titile="" th:title="#{valid.index.tab.current.table.head.time.tooltip}">
+                                            <input type="number" name="time" min="0.5" max="12" step="0.5" required>
+                                            <input type="submit" value="Add time">
+                                        </fieldset>
                                     </form>
                                 </td>
+                                <td><span th:text="${ua.getDuration()}"></span></td>
                                 <td><span>actions</span></td>
                             </tr>
                         </div>
@@ -96,10 +99,14 @@
                 </table>
             </div>
         </div>
-        <div class="alert alert-success alert-dismissible" role="alert" th:text="#{index.requested.activity.message.success}" 
-            th:if="${requestedActivitySuccess}"></div>
-        <div class="alert alert-danger alert-dismissible" role="alert" th:text="${index.requested.activity.message.failure}" 
-            th:if="${error_message}"></div>
+        <div class="alert alert-success alert" role="alert" th:if="${success_message}">
+            <span th:text="#{valid.index.requested.activity.message.success}"></span>
+            <a th:href="@{/}" class="alert-link" th:text="#{valid.index.requested.activity.message.success.return}">Return</a>
+        </div>
+        <div class="alert alert-danger alert" role="alert" th:if="${error_message}">
+            <span th:text="#{valid.index.requested.activity.message.failure}"></span>
+            <a th:href="@{/}" class="alert-link" th:text="#{valid.index.requested.activity.message.failure.return}">Return</a>
+        </div>
     </div>
     <div th:replace="fragments/user_page :: footer"></div>
 </body>
