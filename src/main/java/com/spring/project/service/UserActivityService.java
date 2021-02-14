@@ -47,6 +47,7 @@ public class UserActivityService {
         return userActivityRepository.findByState(ActivityState.REQUESTED);
     }
 
+    // TODO: fix message for user when activity exists
     @Transactional
     public UserActivity requestActivity(long activityId) throws ActivityAlreadyExistException {
         User user = securityService.getCurrentLoggedUser();
@@ -79,5 +80,10 @@ public class UserActivityService {
         log.info("Accepted activity [User: {}, activity: {}]",
                 ua.getUser().getEmail(), ua.getActivity().getName());
         return userActivityRepository.save(ua);
+    }
+
+    public Long deleteRequest(long id) {
+        userActivityRepository.deleteById(id);
+        return id;
     }
 }

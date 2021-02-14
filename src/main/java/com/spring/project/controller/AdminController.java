@@ -203,4 +203,11 @@ public class AdminController {
         userActivityService.confirmRequest(id);
         return "redirect:/admin";
     }
+
+    // TODO: inform user if his request has been deleted
+    @GetMapping("/request/delete/{id}")
+    public String deleteUserRequest(@PathVariable("id") long id) {
+        userActivityService.deleteRequest(id);
+        return "redirect:/admin";
+    }
 }

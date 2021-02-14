@@ -27,6 +27,7 @@
                             <th th:text="#{index.tab.current.table.head.category}">category</th>
                             <th th:text="#{index.tab.current.table.head.activity}">activity</th>
                             <th th:text="#{index.tab.current.table.head.state}">state</th>
+                            <th th:text="#{index.tab.current.table.head.time}">time</th>
                             <th th:text="#{index.tab.current.table.head.actions}">actions</th>
                         </tr>
                     </thead>
@@ -36,7 +37,13 @@
                             <tr>
                                 <td><span th:text="${ua.getActivity().getCategory().getName()}">category</span></td>
                                 <td><span th:text="${ua.getActivity().getName()}">activity</span></td>
-                                <td><span th:text="${ua.getState()}">accepted</span></td>
+                                <td><span th:text="${ua.getState()}">state</span></td>
+                                <td>
+                                    <form action="#" method="post">
+                                        <input type="number" name="time" min="0" max="12" step="0.5" required>
+                                          <input type="submit" value="Add time">
+                                    </form>
+                                </td>
                                 <td><span>actions</span></td>
                             </tr>
                         </div>
