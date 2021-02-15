@@ -227,7 +227,7 @@ public class AdminController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
-//        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         List<UserActivityDto> allActivities = userActivityService.combineUserActivities(activities);
         sort(allActivities, sortField, sortDir);
