@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -126,7 +127,20 @@ public class UserActivityService {
     }
 
     public Page<UserActivity> findAllPaginated(int pageNo, int pageSize) {
+/*
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+*/
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         return userActivityRepository.findAll(pageable);
+    }
+
+    @Transactional
+    public UserActivity completeActivity(long id) {
+        UserActivity ua = userActivityRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("Activity not found"));
+        ua.setState(ActivityState.COMPLETED);
+        log.info("User activity requested to complete: {}", id);
+        return userActivityRepository.save(ua);
     }
 }

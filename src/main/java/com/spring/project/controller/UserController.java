@@ -55,4 +55,10 @@ public class UserController {
         timeLogService.addNewTimePoint(id, time);
         return "redirect:/";
     }
+
+    @GetMapping("/complete/{id}")
+    public String completeTask(@PathVariable("id") long id) {
+        userActivityService.completeActivity(id);
+        return "redirect:/";
+    }
 }

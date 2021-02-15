@@ -1,9 +1,7 @@
 package com.spring.project.controller;
 
-import com.spring.project.dto.ActivityDto;
-import com.spring.project.dto.CategoryDto;
-import com.spring.project.dto.RegistrationDto;
-import com.spring.project.dto.UpdateUserDto;
+import com.spring.project.dto.*;
+import com.spring.project.utils.Compare;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
 import com.spring.project.exceptions.CategoryAlreadyExistException;
 import com.spring.project.exceptions.UserAlreadyExistException;
@@ -213,11 +211,13 @@ public class AdminController {
 
     @GetMapping("/report")
     public String showReports(Model model) {
-        return findPaginated(1, model);
+        return findPaginated(1, "email", "asc", model);
     }
 
     @GetMapping("/report/{pageNo}")
-    public String findPaginated(@PathVariable("pageNo") Integer pageNo, Model model) {
+    public String findPaginated(@PathVariable("pageNo") int pageNo,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDir") String sortDir, Model model) {
         int pageSize = 5;
         Page<UserActivity> page = userActivityService.findAllPaginated(pageNo, pageSize);
         List<UserActivity> activities = page.getContent();
@@ -225,8 +225,32 @@ public class AdminController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("allActivities",
-                userActivityService.combineUserActivities(activities));
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+
+        List<UserActivityDto> allActivities = userActivityService.combineUserActivities(activities);
+        sort(allActivities, sortField, sortDir);
+
+        model.addAttribute("allActivities", allActivities);
         return "admin_report";
+    }
+
+    private void sort(List<UserActivityDto> list, String sortField, String sortDir) {
+        switch (sortField) {
+            case "email":
+                list.sort(Compare.byUserEmail);
+                break;
+            case "category":
+                list.sort(Compare.byCategory);
+                break;
+            case "state":
+                list.sort(Compare.byState);
+                break;
+            case "time":
+                list.sort(Compare.byTime);
+                break;
+            default: return;
+        }
     }
 }
