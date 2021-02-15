@@ -48,18 +48,18 @@
                         <div class="col-sm-1">
                             <span th:each="i : ${#numbers.sequence(1, totalPages)}">
                                 <a th:if="${currentPage != i}" 
-                                   th:href="@{'/admin/report/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+                                   th:href="@{'/admin/report/' + ${i}}">[[${i}]]</a>
                                 <span th:unless="${currentPage != i}">[[${i}]]</span>
                             </span>
                         </div>
                         <div class="col-sm-1">
                             <a th:if="${currentPage < totalPages}" 
-                               th:href="@{'/admin/report/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+                               th:href="@{'/admin/report/' + ${currentPage + 1}}">Next</a>
                             <span th:unless="${currentPage < totalPages}">Next</span>
                         </div>
                         <div class="col-sm-1">
                             <a th:if="${currentPage < totalPages}" 
-                               th:href="@{'/admin/report/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+                               th:href="@{'/admin/report/' + ${totalPages}}">Last</a>
                             <span th:unless="${currentPage < totalPages}">Last</span>
                         </div>
                     </div>

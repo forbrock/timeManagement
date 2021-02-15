@@ -211,13 +211,11 @@ public class AdminController {
 
     @GetMapping("/report")
     public String showReports(Model model) {
-        return findPaginated(1, "email", "asc", model);
+        return findPaginated(1, model);
     }
 
     @GetMapping("/report/{pageNo}")
-    public String findPaginated(@PathVariable("pageNo") int pageNo,
-                                @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDir") String sortDir, Model model) {
+    public String findPaginated(@PathVariable("pageNo") int pageNo, Model model) {
         int pageSize = 5;
         Page<UserActivity> page = userActivityService.findAllPaginated(pageNo, pageSize);
         List<UserActivity> activities = page.getContent();
@@ -225,32 +223,8 @@ public class AdminController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
-
-        List<UserActivityDto> allActivities = userActivityService.combineUserActivities(activities);
-        sort(allActivities, sortField, sortDir);
-
-        model.addAttribute("allActivities", allActivities);
+        model.addAttribute("allActivities",
+                userActivityService.combineUserActivities(activities));
         return "admin_report";
-    }
-
-    private void sort(List<UserActivityDto> list, String sortField, String sortDir) {
-        switch (sortField) {
-            case "email":
-                list.sort(Compare.byUserEmail);
-                break;
-            case "category":
-                list.sort(Compare.byCategory);
-                break;
-            case "state":
-                list.sort(Compare.byState);
-                break;
-            case "time":
-                list.sort(Compare.byTime);
-                break;
-            default: return;
-        }
     }
 }

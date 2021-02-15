@@ -122,15 +122,7 @@ public class UserActivityService {
                         .build()).collect(toList());
     }
 
-    public List<UserActivity> getAll() {
-        return userActivityRepository.findAll();
-    }
-
     public Page<UserActivity> findAllPaginated(int pageNo, int pageSize) {
-/*
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
-                Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-*/
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         return userActivityRepository.findAll(pageable);
     }
