@@ -211,15 +211,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-/*
-    @GetMapping("/report")
-    public String showReports(Model model) {
-        model.addAttribute("allActivities",
-                userActivityService.combineUserActivities(userActivityService.getAll()));
-        return "admin_report";
-    }
-*/
-
     @GetMapping("/report")
     public String showReports(Model model) {
         return findPaginated(1, model);

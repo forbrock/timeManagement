@@ -1,6 +1,6 @@
 package com.spring.project.controller;
 
-import com.spring.project.additional.validation.PasswordValidator;
+import com.spring.project.validation.PasswordValidator;
 import com.spring.project.dto.RegistrationDto;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.User;

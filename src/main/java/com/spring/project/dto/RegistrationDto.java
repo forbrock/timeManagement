@@ -1,6 +1,6 @@
 package com.spring.project.dto;
 
-import com.spring.project.additional.validation.ValidEmail;
+import com.spring.project.validation.ValidEmail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
