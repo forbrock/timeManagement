@@ -58,6 +58,7 @@ public class UserController {
 
     @GetMapping("/complete/{id}")
     public String completeTask(@PathVariable("id") long id) {
-        return "index";
+        userActivityService.completeActivity(id);
+        return "redirect:/";
     }
 }

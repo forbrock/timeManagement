@@ -90,14 +90,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- <div th:each="ua : ${userActivities}">
+                        <div th:each="ua : ${userActivities}"
+                             th:if="${ua.getState().name == 'COMPLETED'}">
                             <tr>
-                                <td><a th:text="${ua.getActivity().getCategory().getName()}">category</a></td>
-                                <td><a th:text="${ua.getActivity().getName()}">name</a></td>
-                                <td><a th:text="${ua.getState()}">accepted</a></td>
-                                <td><a th:text="$some buttons">actions</a></td>
+                                <td><span th:text="${ua.getActivity().getCategory().getName()}">category</span></td>
+                                <td><span th:text="${ua.getActivity().getName()}">activity</span></td>
+                                <td><span th:text="${ua.getState()}">state</span></td>
+                                <td><span th:text="${ua.getDuration()}"></span></td>
                             </tr>
-                        </div> -->
+                        </div>
                     </tbody>
                 </table>
             </div>

@@ -135,12 +135,11 @@ public class UserActivityService {
         return userActivityRepository.findAll(pageable);
     }
 
-    //TODO: doesn't work
     @Transactional
     public UserActivity completeActivity(long id) {
         UserActivity ua = userActivityRepository.findById(id).orElseThrow(() ->
                 new NoSuchElementException("Activity not found"));
-        ua.setState(ActivityState.REQUEST_TO_COMPLETE);
+        ua.setState(ActivityState.COMPLETED);
         log.info("User activity requested to complete: {}", id);
         return userActivityRepository.save(ua);
     }
