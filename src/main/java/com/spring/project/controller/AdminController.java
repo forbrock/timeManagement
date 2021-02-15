@@ -9,12 +9,14 @@ import com.spring.project.exceptions.CategoryAlreadyExistException;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.Activity;
 import com.spring.project.model.Category;
+import com.spring.project.model.UserActivity;
 import com.spring.project.service.ActivityService;
 import com.spring.project.service.CategoryService;
 import com.spring.project.service.UserActivityService;
 import com.spring.project.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -45,13 +48,13 @@ public class AdminController {
 
     @GetMapping
     public String showAdminPage(Model model) {
-        model.addAttribute("userActivities", userActivityService.getRequestedActivities());
+        model.addAttribute("userActivities",
+                userActivityService.getRequestedActivities());
         return "admin";
     }
 
     @GetMapping("/users")
-    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto,
-                               BindingResult bindingResult, Model model) {
+    public String showAllUsers(@ModelAttribute("user") RegistrationDto regDto, Model model) {
         model.addAttribute("users", userService.getAllUsers());
         return "admin_users";
     }
@@ -74,7 +77,6 @@ public class AdminController {
         return "redirect:/admin/admin_users";
     }
 
-    // TODO: add possibility to change user role
     @GetMapping("/user/edit/{id}")
     public String showEditUserForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getById(id));
@@ -209,10 +211,31 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+/*
     @GetMapping("/report")
     public String showReports(Model model) {
         model.addAttribute("allActivities",
                 userActivityService.combineUserActivities(userActivityService.getAll()));
+        return "admin_report";
+    }
+*/
+
+    @GetMapping("/report")
+    public String showReports(Model model) {
+        return findPaginated(1, model);
+    }
+
+    @GetMapping("/report/{pageNo}")
+    public String findPaginated(@PathVariable("pageNo") Integer pageNo, Model model) {
+        int pageSize = 5;
+        Page<UserActivity> page = userActivityService.findAllPaginated(pageNo, pageSize);
+        List<UserActivity> activities = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("allActivities",
+                userActivityService.combineUserActivities(activities));
         return "admin_report";
     }
 }

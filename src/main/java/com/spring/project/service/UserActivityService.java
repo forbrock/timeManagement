@@ -12,6 +12,9 @@ import com.spring.project.repository.TimeLogRepository;
 import com.spring.project.repository.UserActivityRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -120,5 +123,10 @@ public class UserActivityService {
 
     public List<UserActivity> getAll() {
         return userActivityRepository.findAll();
+    }
+
+    public Page<UserActivity> findAllPaginated(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return userActivityRepository.findAll(pageable);
     }
 }
