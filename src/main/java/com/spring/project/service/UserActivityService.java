@@ -15,14 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
-import static org.springframework.data.util.Pair.toMap;
 
 @Log4j2
 @Service
@@ -30,19 +27,16 @@ public class UserActivityService {
     private UserActivityRepository userActivityRepository;
     private SecurityService securityService;
     private ActivityRepository activityRepository;
-    private ActivityService activityService;
     private TimeLogRepository timeLogRepository;
 
     @Autowired
     public UserActivityService(UserActivityRepository userActivityRepository,
                                ActivityRepository activityRepository,
                                SecurityService securityService,
-                               ActivityService activityService,
                                TimeLogRepository timeLogRepository) {
         this.userActivityRepository = userActivityRepository;
         this.activityRepository = activityRepository;
         this.securityService = securityService;
-        this.activityService = activityService;
         this.timeLogRepository = timeLogRepository;
     }
 
@@ -127,24 +121,4 @@ public class UserActivityService {
     public List<UserActivity> getAll() {
         return userActivityRepository.findAll();
     }
-
-
-/*
-    public List<UserActivityDto> combineUserActivities() {
-        List<UserActivity> currentUserActivities = activityService.getCurrentUserActivities();
-        List<TimeLog> timeLogList = timeLogRepository.findByUserActivityIn(currentUserActivities);
-
-        Map<Long, Double> totalSumOfEachUserActivity = timeLogList.stream()
-                .collect(Collectors.groupingBy(el -> el.getUserActivity().getId(),
-                        summingDouble(TimeLog::getDuration)));
-
-        return currentUserActivities.stream()
-                .map(el -> UserActivityDto.builder()
-                        .id(el.getId())
-                        .activity(el.getActivity())
-                        .state(el.getState())
-                        .duration(totalSumOfEachUserActivity.get(el.getId()))
-                        .build()).collect(toList());
-    }
-*/
 }

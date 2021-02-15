@@ -1,6 +1,9 @@
 package com.spring.project.controller;
 
-import com.spring.project.dto.*;
+import com.spring.project.dto.ActivityDto;
+import com.spring.project.dto.CategoryDto;
+import com.spring.project.dto.RegistrationDto;
+import com.spring.project.dto.UpdateUserDto;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
 import com.spring.project.exceptions.CategoryAlreadyExistException;
 import com.spring.project.exceptions.UserAlreadyExistException;
@@ -19,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.sql.SQLException;
-import java.util.List;
 
 @Log4j2
 @Controller

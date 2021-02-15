@@ -40,9 +40,9 @@
                 </div>
               </div>
               <div>
-                <select class="form-control" name="role" style="width:auto;">
-                  <option value="user" th:text="#{admin.edit.user.form.role.user}">USER</option>
-                  <option value="admin" th:text="#{admin.edit.user.form.role.admin}">ADMIN</option>
+                <select class="form-control" name="role" style="width:auto;" id="disabledSelect">
+                  <option value="USER" th:text="#{admin.edit.user.form.role.user}">USER</option>
+                  <option value="ADMIN" th:text="#{admin.edit.user.form.role.admin}">ADMIN</option>
                 </select>
               <button type="submit" class="btn btn-sm btn-outline-secondary mt-3" 
                 th:text="#{admin.edit.user.form.button.save}">Save</button>

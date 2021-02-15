@@ -40,9 +40,9 @@
                                 <td><span th:text="${ua.getState()}">state</span></td>
                                 <td>
                                     <form method="post" th:action="@{/time/{id}/add(id=${ua.getId()})}">
-                                        <fieldset titile="" th:title="#{valid.index.tab.current.table.head.time.tooltip}">
+                                        <fieldset titile="" th:title="#{valid.index.tab.current.table.content.time.tooltip}">
                                             <input type="number" name="time" min="0.5" max="12" step="0.5" required>
-                                            <input type="submit" value="Add time">
+                                            <input type="submit" th:value="#{index.tab.current.table.content.add.time}">
                                         </fieldset>
                                     </form>
                                 </td>
@@ -60,9 +60,8 @@
                     <thead>
                         <tr>
                             <th th:text="#{index.tab.new.table.head.category}">category</th>
-                            <th th:text="#{index.tab.new.table.head.name}">name</th>
-                            <th th:text="#{index.tab.new.table.head.accepted}">accepted</th>
-                            <th th:text="#{index.tab.new.table.head.actions}">actions</th>
+                            <th th:text="#{index.tab.new.table.head.activity}">activity</th>
+                            <th th:text="#{index.tab.new.table.head.state}">state</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,9 +80,9 @@
                     <thead>
                         <tr>
                             <th th:text="#{index.tab.completed.table.head.category}">category</th>
-                            <th th:text="#{index.tab.completed.table.head.name}">name</th>
-                            <th th:text="#{index.tab.completed.table.head.accepted}">accepted</th>
-                            <th th:text="#{index.tab.completed.table.head.actions}">actions</th>
+                            <th th:text="#{index.tab.completed.table.head.activity}">activity</th>
+                            <th th:text="#{index.tab.completed.table.head.state}">state</th>
+                            <th th:text="#{index.tab.completed.table.head.total.time}">total time</th>
                         </tr>
                     </thead>
                     <tbody>

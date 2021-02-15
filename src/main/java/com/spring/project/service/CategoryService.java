@@ -1,23 +1,16 @@
 package com.spring.project.service;
 
 import com.spring.project.dto.CategoryDto;
-import com.spring.project.dto.RegistrationDto;
 import com.spring.project.dto.mapper.CategoryMapper;
 import com.spring.project.exceptions.CategoryAlreadyExistException;
-import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.Category;
-import com.spring.project.model.User;
-import com.spring.project.model.enums.Role;
 import com.spring.project.repository.CategoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 

@@ -7,12 +7,9 @@ import com.spring.project.repository.TimeLogRepository;
 import com.spring.project.repository.UserActivityRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -48,25 +45,4 @@ public class TimeLogService {
         // TODO: add validation logic
         return true;
     }
-
-    public double getActivityTimeLog(long id) {
-        List<TimeLog> allEntries = timeLogRepository.findByUserActivityId(id)
-                .stream()
-                .filter(entry -> entry.getUserActivity().getId() == id)
-                .collect(Collectors.toList());
-
-        return allEntries.stream().mapToDouble(TimeLog::getDuration).sum();
-    }
-
-/*
-    public double getActivityTimeLog(Model model) {
-        if (model.getAttribute("userActivities") == null) {
-            return 0;
-        }
-        List<UserActivity> activities =
-                (List<UserActivity>) model.getAttribute("userActivities");
-        return activities.stream()
-                .filter(entry -> entry.get)
-    }
-*/
 }

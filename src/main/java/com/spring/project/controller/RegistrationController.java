@@ -4,7 +4,6 @@ import com.spring.project.additional.validation.PasswordValidator;
 import com.spring.project.dto.RegistrationDto;
 import com.spring.project.exceptions.UserAlreadyExistException;
 import com.spring.project.model.User;
-import com.spring.project.service.SecurityService;
 import com.spring.project.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +24,11 @@ public class RegistrationController {
 
     private UserService userService;
     private PasswordValidator passwordValidator;
-    private SecurityService securityService;
 
     @Autowired
-    public RegistrationController(UserService userService, PasswordValidator passwordValidator,
-                                  SecurityService securityService) {
+    public RegistrationController(UserService userService, PasswordValidator passwordValidator) {
         this.userService = userService;
         this.passwordValidator = passwordValidator;
-        this.securityService = securityService;
     }
 
     @GetMapping
@@ -52,7 +48,6 @@ public class RegistrationController {
         try {
             User registered = userService.registerNewAccount(regDto);
             log.info("Account {} registered successfully", registered.getEmail());
-//            securityService.autoLogin(registered.getEmail(), registered.getPassword());
         } catch (UserAlreadyExistException e) {
             bindingResult.rejectValue("email", "user.email",
                     "reg.login.not.unique");

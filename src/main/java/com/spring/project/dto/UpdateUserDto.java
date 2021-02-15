@@ -20,4 +20,6 @@ public class UpdateUserDto {
     @NotEmpty(message = "{valid.reg.not_empty}")
     @Size(min = 2, max = 30, message = "{valid.name.size}")
     private String lastName;
+
+//    private Role role;
 }

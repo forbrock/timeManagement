@@ -69,19 +69,19 @@ public class UserService {
         return user;
     }
 
-    // TODO: don't forget to remove id from exception output
     public User getById(Long id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new UsernameNotFoundException("No such user was found, id: " + id));
     }
 
-    // TODO: don't forget to remove id from exception output
+    // TODO: fix role assigning
     @Transactional
     public User update(UpdateUserDto updateUserDto) {
         User user = userRepository.findById(updateUserDto.getId()).orElseThrow(() ->
-                new UsernameNotFoundException("No such user with id: " + updateUserDto.getId()));
+                new UsernameNotFoundException("No such user found"));
         user.setFirstName(updateUserDto.getFirstName());
         user.setLastName(updateUserDto.getLastName());
+//        user.setRoles(Collections.singleton(updateUserDto.getRole()));
         return userRepository.save(user);
     }
 

@@ -4,42 +4,28 @@ import com.spring.project.dto.ActivityDto;
 import com.spring.project.dto.mapper.ActivityMapper;
 import com.spring.project.exceptions.ActivityAlreadyExistException;
 import com.spring.project.model.Activity;
-import com.spring.project.model.User;
-import com.spring.project.model.UserActivity;
 import com.spring.project.repository.ActivityRepository;
-import com.spring.project.repository.UserActivityRepository;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Set;
 
 @Log4j2
 @Service
 public class ActivityService {
     private ActivityRepository activityRepository;
     private ActivityMapper mapper;
-    private SecurityService securityService;
-    private UserActivityRepository userActivityRepository;
 
     @Autowired
     public ActivityService(ActivityRepository activityRepository,
-                           ActivityMapper mapper,
-                           SecurityService securityService,
-                           UserActivityRepository userActivityRepository) {
+                           ActivityMapper mapper) {
         this.activityRepository = activityRepository;
-        this.securityService = securityService;
         this.mapper = mapper;
-        this.userActivityRepository = userActivityRepository;
     }
 
     @Transactional

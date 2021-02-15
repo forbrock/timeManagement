@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TimeLogRepository extends JpaRepository<TimeLog, Long> {
-    List<TimeLog> findByUserActivityId(Long id);
     List<TimeLog> findByUserActivityIn(List<UserActivity> activities);
 }
