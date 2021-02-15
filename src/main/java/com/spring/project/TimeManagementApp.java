@@ -12,10 +12,8 @@ public class TimeManagementApp {
 
 	// TODO: fix logout message handling for registration page,
 	//		add labels into modal windows
-	//		implement user's possibility to add time for activity
 	//		implement admin's possibility to assign a new activity for user
 	//		add admin's possibility to disable user account
-	//		implement pagination
 	//		implement filters
 	//		clean all unused vars and imports
 }

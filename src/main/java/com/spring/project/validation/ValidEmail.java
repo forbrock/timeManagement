@@ -1,4 +1,4 @@
-package com.spring.project.additional.validation;
+package com.spring.project.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

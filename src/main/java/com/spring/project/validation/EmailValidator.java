@@ -1,4 +1,4 @@
-package com.spring.project.additional.validation;
+package com.spring.project.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

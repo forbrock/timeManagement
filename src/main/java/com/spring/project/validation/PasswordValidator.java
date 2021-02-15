@@ -1,4 +1,4 @@
-package com.spring.project.additional.validation;
+package com.spring.project.validation;
 
 import com.spring.project.dto.RegistrationDto;
 import org.springframework.stereotype.Component;
