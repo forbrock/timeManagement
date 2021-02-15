@@ -47,7 +47,11 @@
                                     </form>
                                 </td>
                                 <td><span th:text="${ua.getDuration()}"></span></td>
-                                <td><span>actions</span></td>
+                                <td>
+                                    <a type="button" class="btn btn-outline-success btn-sm px-2" 
+                                        th:text="#{index.tab.current.table.content.complete.task}" 
+                                        th:href="@{/complete/{id}(id=${ua.getId()})}">complete task</a>
+                                </td>
                             </tr>
                         </div>
                     </tbody>
