@@ -9,10 +9,4 @@ public class TimeManagementApp {
 	public static void main(String[] args) {
 		SpringApplication.run(TimeManagementApp.class, args);
 	}
-
-	// TODO: fix logout message handling for registration page,
-	//		implement admin's possibility to assign a new activity for user
-	//		add admin's possibility to disable user account
-	//		implement filters
-	//		clean all unused vars and imports
 }
